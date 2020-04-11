@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(rvest)
+library(glue)
+library(RCurl) 
 ```
 
 ```{r}
@@ -36,12 +38,24 @@ years = c("2019-20", "2018-19", "2017-18")
 
 links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
 
-links_years
 ```
 
 ```{r}
-links_new <- paste("https://www.smith.edu", links_years,  sep="")
+links_url <- paste("https://www.smith.edu", links_years,  sep="")
 
-links_new
+links_actual
+```
+
+```{r}
+links_actual <- links_url[url.exists(links_url)]
+
+links_actual
+```
+
+
+
+```{r}
+#pdf_names <- glue("report_1.pdf")
+#walk2(links_actual, pdf_names, download.file, mode="wb")
 ```
 
