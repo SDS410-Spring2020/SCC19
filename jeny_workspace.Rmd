@@ -57,7 +57,7 @@ links_actual <- links_url[url.exists(links_url)]
 ```
 
 ```{r}
-url <- "https://www.smith.edu/president-kathleen-mccartney/letters/2017-18/innovation-challenge"
+url <- "https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-10-2020"
 
 
 text <- read_html(url) %>% 
@@ -68,5 +68,18 @@ text <- read_html(url) %>%
 text
 ```
 
+```{r}
+
+txt <- lapply(links_actual,
+              function(links_actual) {
+                links_actual %>% read_html() %>% 
+                html_node(".left-column-text") %>% 
+                html_node(".field-item.even") %>% 
+                html_text()
+              }
+)
+
+txt
+```
 
 
