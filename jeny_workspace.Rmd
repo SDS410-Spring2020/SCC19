@@ -1,0 +1,47 @@
+---
+title: "jeny_workspace"
+author: "Jeny Kwon"
+date: "4/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(rvest)
+```
+
+```{r}
+url <- read_html("https://www.smith.edu/president-kathleen-mccartney/letters-community")
+
+links <- url %>% 
+  html_nodes(".field-item") %>%   
+  html_nodes("li") %>% 
+  html_nodes("a") %>% 
+  html_attr("href")
+```
+
+```{r}
+  
+links_clean <- links %>% 
+  str_replace("https://www.smith.edu", "") 
+  
+```
+
+```{r}
+years = c("2019-20", "2018-19", "2017-18")
+
+links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
+
+links_years
+```
+
+```{r}
+links_new <- paste("https://www.smith.edu", links_years,  sep="")
+
+links_new
+```
+
