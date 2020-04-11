@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(rvest)
+library(pdftools)
+library(dplyr)
 library(glue)
 library(RCurl) 
 ```
@@ -43,19 +45,28 @@ links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"),
 ```{r}
 links_url <- paste("https://www.smith.edu", links_years,  sep="")
 
-links_actual
 ```
+
+```{r}
+url.exists(links_url)
+```
+
 
 ```{r}
 links_actual <- links_url[url.exists(links_url)]
-
-links_actual
 ```
-
-
 
 ```{r}
-#pdf_names <- glue("report_1.pdf")
-#walk2(links_actual, pdf_names, download.file, mode="wb")
+url <- "https://www.smith.edu/president-kathleen-mccartney/letters/2017-18/innovation-challenge"
+
+
+text <- read_html(url) %>% 
+  html_node(".left-column-text") %>% 
+  html_node(".field-item.even") %>% 
+  html_text()
+
+text
 ```
+
+
 
