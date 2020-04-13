@@ -23,11 +23,17 @@ library(formattable)
 # Scrape urls from main webpage with all the letters
 url <- read_html("https://www.smith.edu/president-kathleen-mccartney/letters-community")
 
+topics <- url %>% 
+  html_nodes(".field-item") %>%   
+  html_nodes("li") %>% 
+  html_nodes("a") %>%
+  html_text()
+
 links <- url %>% 
   html_nodes(".field-item") %>%   
   html_nodes("li") %>% 
-  html_nodes("a") %>% 
-  html_text()
+  html_nodes("a") %>%
+  substr(10, 1000)
 
 ```
 
