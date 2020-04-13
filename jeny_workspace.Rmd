@@ -15,7 +15,8 @@ library(rvest)
 library(pdftools)
 library(dplyr)
 library(glue)
-library(RCurl) 
+#library(RCurl) 
+library(httr)
 library(formattable)
 ```
 
@@ -33,7 +34,7 @@ links <- url %>%
   html_nodes(".field-item") %>%   
   html_nodes("li") %>% 
   html_nodes("a") %>%
-  sub(pattern = '<a href="', replacement = " ") %>%
+  sub(pattern = '<a href="', replacement = "") %>%
   sub(pattern = '(\\".*)', replacement = "")
 ```
 
@@ -69,13 +70,23 @@ links_url <- paste("https://www.smith.edu", links_years,  sep="")
 
 ```{r}
 # Check if each of the urls exists
-links_exist <- url.exists(links_url)
+urls_exist <- c()
+check_exists <- function(links_url, urls_exist){
+  if(GET(links_url, body = F)[2]==200){
+    urls_exist <- c(urls_exist, links_url)
+  }else{
+    return()
+  }
+}
+
+working_urls <- lapply(links_url, check_exists, urls_exist)
+
 ```
 
 
 ```{r}
 # Only include urls that are valid/exist
-links_actual <- links_url[links_exist]
+links_actual <- unlist(working_urls)
 ```
 
 
