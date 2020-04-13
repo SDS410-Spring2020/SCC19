@@ -127,6 +127,23 @@ content <- lapply(links_actual,
                 html_text()
               }
 )
+
+
+
+```
+
+```{r}
+# get date of publication from urls
+datepattern <- "[a-z]{1,10}-[0-9]{2}-[0-9]{4}"
+date <- lapply(links_actual,
+               function(links_actual) {
+                 datelocate <- regexpr(datepattern, links_actual)[1]
+                 return(substr(links_actual, datelocate, nchar(links_actual)))
+                   })
+url <- "https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-10-2020"
+datelocate <- regexpr(datepattern, url)[1]
+substr(url, datelocate, nchar(url))
+
 ```
 
 ```{r}
