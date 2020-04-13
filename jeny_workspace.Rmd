@@ -33,8 +33,8 @@ links <- url %>%
   html_nodes(".field-item") %>%   
   html_nodes("li") %>% 
   html_nodes("a") %>%
-  substr(10, 1000)
-
+  sub(pattern = '<a href="', replacement = " ") %>%
+  sub(pattern = '(\\".*)', replacement = "")
 ```
 
 ```{r}
