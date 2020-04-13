@@ -27,7 +27,8 @@ links <- url %>%
   html_nodes(".field-item") %>%   
   html_nodes("li") %>% 
   html_nodes("a") %>% 
-  html_attr("href")
+  html_text()
+
 ```
 
 ```{r}
@@ -38,18 +39,18 @@ links_clean <- links %>%
 ```
 
 ```{r}
-# # Only include urls from 2017-18, 2018-19, and 2019-20
-# years = c("2019-20", "2018-19", "2017-18")
-# 
-# links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
+# Only include urls from 2017-18, 2018-19, and 2019-20
+years = c("2019-20", "2018-19", "2017-18")
+
+links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
 
 ```
 
 ```{r}
-# Testing purposes (less data)
-years = c("2019-20")
-
-links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
+# # Testing purposes (less data)
+# years = c("2019-20")
+# 
+# links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
 
 ```
 
@@ -136,8 +137,10 @@ year <- unlist(year, use.names=FALSE)
 
 content <- unlist(content, use.names=FALSE)
 
+link <- unlist(links_actual, use.names=FALSE)
+
 # Combine data into a data frame
-df <- as.data.frame(cbind(title, year, content))
+df <- as.data.frame(cbind(title, year, content, link))
 
 formattable(df)
 
