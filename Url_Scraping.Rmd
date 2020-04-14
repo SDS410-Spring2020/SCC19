@@ -1,12 +1,12 @@
 ---
-title: "jeny_workspace"
+title: "url_scraping"
 author: "Jeny Kwon"
-date: "4/11/2020"
+date: "4/14/2020"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
@@ -15,9 +15,7 @@ library(rvest)
 library(pdftools)
 library(dplyr)
 library(glue)
-#library(RCurl) 
 library(httr)
-library(formattable)
 ```
 
 ```{r}
@@ -50,15 +48,6 @@ links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"),
 ```
 
 ```{r}
-# # Testing purposes (less data)
-# years = c("2019-20")
-# 
-# links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
-
-```
-
-
-```{r}
 # Add main domain page to each url
 links_url <- paste("https://www.smith.edu", links_years,  sep="")
 
@@ -86,31 +75,6 @@ working_urls <- lapply(links_url, check_exists, urls_exist)
 links_actual <- unlist(working_urls)
 
 ```
-
-
-```{r}
-# url <- "https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-10-2020"
-# 
-# 
-# title <- read_html(url) %>% 
-#   html_node(".page-title") %>% 
-#   html_text()
-# 
-# title
-```
-
-```{r}
-# url <- "https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-10-2020"
-# 
-# 
-# text <- read_html(url) %>% 
-#   html_node(".left-column-text") %>% 
-#   html_node(".field-item.even") %>% 
-#   html_text()
-# 
-# text
-```
-
 
 ```{r}
 # Scrape title of each letter
@@ -176,40 +140,6 @@ new_dates <- lapply(links_actual,
 
 ```
 
-```{r}
-# Playing around to get dates...
-# links_t <- url %>% 
-#   html_nodes(".field-item") %>%   
-#   html_nodes("li") %>% 
-#   html_nodes("a") %>% 
-#   html_text()
-# 
-# links_t <- unlist(links_t)
-# 
-#  lapply(links_t,
-#    function(links_t) {
-#      gsub(date, "", links_t)
-#    }
-# 
-# 
-#  gsub(" ?\\<[[:alpha:]]\\> ?", "", str)
-# 
-# 
-#  date <- "[A-Z]{1}[a-z]{1,10} [0-9]{1,2}, [0-9]{4}"
-# 
-#  dates <- lapply(links_t,
-#                 function(links_t) {
-#                  str_extract(string = links_t,
-#                              pattern = date)
-#                 }
-#  )
-# 
-#  dates
-
-```
-
-
-
 
 ```{r}
 # Unlist extracted text from each category
@@ -227,11 +157,5 @@ df <- as.data.frame(cbind(title, content, link))
 View(df)
 
 ```
-
-
-
-
-
-
 
 
