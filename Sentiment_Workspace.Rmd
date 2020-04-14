@@ -1,0 +1,35 @@
+---
+title: "Sentiment Analysis Workspace"
+author: "Yejin Hwang"
+date: "4/14/2020"
+output: html_document
+---
+
+```{r}
+# afinn from Finn Årup Nielsen,
+# bing from Bing Liu and collaborators, and
+# nrc from Saif Mohammad and Peter Turney.
+
+library(dplyr)
+library(tidytext)
+
+# Count words by sentiment in each lexicon:
+get_sentiments("nrc") %>%
+  count(sentiment) 
+
+get_sentiments("bing") %>% 
+  count(sentiment)
+
+# Access eacg lexicon and assign it:
+nrc <- get_sentiments("nrc")
+
+bing <- get_sentiments("bing")
+
+# Use data frame with text data, and implement sentiment analysis using inner joint
+our_text_from_letters %>%
+  inner_join(nrc)
+
+our_text_from_letters %>%
+  inner_join(bing)
+```
+
