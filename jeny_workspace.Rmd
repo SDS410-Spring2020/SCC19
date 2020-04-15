@@ -45,18 +45,12 @@ links_url <- paste("https://www.smith.edu", links_clean,  sep="")
 ```
 
 ```{r}
+# # Testing purposes (less data)
+# years = c("2019-20")
 # Only include urls from 2017-18, 2018-19, and 2019-20
 years = c("2019-20", "2018-19", "2017-18")
 
 links_years <- links_url[!links_url %in% grep(paste0(years, collapse = "|"), links_url, value = T, invert = T)]
-
-```
-
-```{r}
-# # Testing purposes (less data)
-# years = c("2019-20")
-# 
-# links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
 
 ```
 
@@ -71,8 +65,6 @@ check_exists <- function(links_years, urls_exist){
     return()
   }
 }
-
-
 
 ```
 
@@ -125,10 +117,10 @@ titles_dates <- url %>%
 titles_dates <- unlist(titles_dates)
 
 # Date format to search for
-date <- "[A-Z]{1}[a-z]{1,10} [0-9]{1,2}, [0-9]{4}"
+date_format <- "[A-Z]{1}[a-z]{1,10} [0-9]{1,2}, [0-9]{4}"
 
 # Extract date using above format from titles
-dates <- lapply(titles_dates,
+date <- lapply(titles_dates,
                 function(titles_dates) {
                  str_extract(string = titles_dates,
                              pattern = date)
@@ -136,22 +128,23 @@ dates <- lapply(titles_dates,
  )
 
 # Unlist dates vector
-dates <- unlist(dates, use.names=FALSE)
+date <- unlist(dates, use.names=FALSE)
 
 # Unlink links 
 # links_url from line 41
 link <- unlist(links_url, use.names=FALSE)
 
 # Create data frame with extracted dates and links
-df_dates <- as.data.frame(cbind(dates, link))
+df_dates <- as.data.frame(cbind(date, link))
 
+df_dates
 ```
 
 
 
 ```{r}
 # Unlist extracted text from each category
-title <- unlist(title, use.names=FALSE)
+title <- unlist(title, use.names=FALSE) 
 
 content <- unlist(content, use.names=FALSE)
 
@@ -166,6 +159,21 @@ df_content <- as.data.frame(cbind(title, content, link))
 ```{r}
 # Join data data frame with dates with data frame with content
 df_full <- inner_join(df_content, df_dates,  by = "link")
+
+# Change data types
+df_full$link <- 
+                 as.character(as.factor(df_full$link))
+
+df_full$title <-
+                as.character(as.factor(df_full$title))
+
+df_full$content <-
+                as.character(as.factor(df_full$content))
+
+df_full$date <-
+                as.Date(as.factor(df_full$date), format ="%B %d, %Y")
+
+
 
 df_full
 ```
