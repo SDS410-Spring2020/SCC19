@@ -126,12 +126,12 @@ date_format <- "[A-Z]{1}[a-z]{1,10} [0-9]{1,2}, [0-9]{4}"
 date <- lapply(title_dates,
                 function(title_dates) {
                  str_extract(string = title_dates,
-                             pattern = date)
+                             pattern = date_format)
                 }
- )
+)
 
 # Unlist dates vector
-date <- unlist(dates, use.names=FALSE)
+date <- unlist(date, use.names=FALSE)
 
 # Unlink links 
 # links_url from line 41
@@ -140,7 +140,7 @@ link <- unlist(links_url, use.names=FALSE)
 # Create data frame with extracted dates and links
 df_dates <- as.data.frame(cbind(date, link))
 
-df_dates
+# df_dates
 ```
 
 
@@ -156,7 +156,7 @@ link <- unlist(links_actual, use.names=FALSE)
 # Combine data into a data frame with titles, contents, and links
 df_content <- as.data.frame(cbind(title, content, link))
 
-df_content
+# df_content
 
 ```
 
@@ -181,7 +181,7 @@ df_full$date <-
 df_full <- tibble::rowid_to_column(df_full, "ID")
 
 
-df_full
+# df_full
 ```
 
 ```{r}
