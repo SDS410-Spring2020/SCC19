@@ -43,7 +43,27 @@ ggplot(lex_df, aes(x = ID, y = value)) +
 ggplot(lex_df, aes(x = ID, y = avg_sent)) + 
   geom_col()
 
-# basic bluepring for 
+# basic blueprint for plotting sentiment over course of letters (faceted)
+ex_df <- lex_df %>%
+  filter(ID %in% c(1:5))
+
+ggplot(ex_df, aes(x = wordplace, y = value)) + 
+  geom_col() + 
+  facet_wrap(~ID)
+
+# get data for length of each letter individually (number of not filler words)
+letter_length <- lex_df %>%
+  group_by(ID) %>%
+  summarise(length = max(wordplace), avg_value = mean(value))
+
+# let's look at how long the letters are relative to each other
+ggplot(letter_length, aes(x = ID, y = length)) + 
+  geom_col()
+  
+
+
+
+
 
 
 
