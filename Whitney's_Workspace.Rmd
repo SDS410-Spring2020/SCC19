@@ -10,15 +10,44 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(tidyverse)
-library(stringr)
 library(tidytext)
-
+library(stringr)
+library(tidyverse)
+library(wordcloud)
+library(reshape2)
 ```
 
 ```{r}
-#make tibble out of title letters and date
+#load the rda file
+load(file = "textdata.Rda")
 
-#the use of for loops?
+#"pasted this part from Emily :), original code by Jeny :)"
+df_tidy <- df_full %>% 
+  unnest_tokens(word, content) %>% 
+  anti_join(stop_words) 
 
+#simple frequency code for common words
+df_count %>% 
+  count(word, sort = TRUE)
+
+#word cloud of 100 most frequently written words
+df_word <- df_tidy %>%
+  count(word) %>%
+  with(wordcloud(word, n, max.words = 100))
+
+#calls for bing sentiment lexicon 
+bing_lex = get_sentiments("bing")
+
+#categorizing words as positive or negative
+df_bing %>%
+  right_join(bing_lex) %>%
+  filter(!is.na(sentiment)) %>%
+  count(sentiment, sort = TRUE)
+
+df_bingword %>%
+  inner_join(bing_lex) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("red", "green"),
+                   max.words = 50)
 ```
