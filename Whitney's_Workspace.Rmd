@@ -15,12 +15,14 @@ library(stringr)
 library(tidyverse)
 library(wordcloud)
 library(reshape2)
+library(lubridate)
 ```
 
 ```{r}
 #load the rda file
 load(file = "textdata.Rda")
 
+#code to get started
 #"pasted this part from Emily :), original code by Jeny :)"
 df_tidy <- df_full %>% 
   unnest_tokens(word, content) %>% 
@@ -44,10 +46,13 @@ df_bing %>%
   filter(!is.na(sentiment)) %>%
   count(sentiment, sort = TRUE)
 
+#word clod of 50 most frequently used negative and positive words
 df_bingword %>%
   inner_join(bing_lex) %>%
   count(word, sentiment, sort = TRUE) %>%
   acast(word ~ sentiment, value.var = "n", fill = 0) %>%
   comparison.cloud(colors = c("red", "green"),
                    max.words = 50)
+
+
 ```
