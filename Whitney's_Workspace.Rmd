@@ -16,6 +16,16 @@ library(tidyverse)
 library(wordcloud)
 library(reshape2)
 library(lubridate)
+library(ggplot2)
+```
+
+```{r}
+library(wordcloud)
+library(tidyverse)      
+library(stringr)        
+library(tidytext)
+library(dplyr)
+library(reshape2)
 ```
 
 ```{r}
@@ -29,7 +39,7 @@ df_tidy <- df_full %>%
   anti_join(stop_words) 
 
 #simple frequency code for common words
-df_count %>% 
+df_count <- df_tidy %>% 
   count(word, sort = TRUE)
 
 #word cloud of 100 most frequently written words
@@ -41,18 +51,39 @@ df_word <- df_tidy %>%
 bing_lex = get_sentiments("bing")
 
 #categorizing words as positive or negative
-df_bing %>%
+df_bing <- df_tidy %>%
   right_join(bing_lex) %>%
   filter(!is.na(sentiment)) %>%
   count(sentiment, sort = TRUE)
 
-#word clod of 50 most frequently used negative and positive words
-df_bingword %>%
+#word cloud of 50 most frequently used negative and positive words
+df_bingword <- df_tidy %>%
   inner_join(bing_lex) %>%
   count(word, sentiment, sort = TRUE) %>%
   acast(word ~ sentiment, value.var = "n", fill = 0) %>%
   comparison.cloud(colors = c("red", "green"),
                    max.words = 50)
+```
 
+```{r}
+#each year splits into groups of 50 words (we can vary this)
+#sentiment score is calculated
+bing_score <- df_tidy %>%
+  mutate(year = year(date)) %>%
+  group_by(year) %>% 
+  mutate(word_count = 1:n(),
+         index = word_count %/% 50 + 1) %>% 
+  inner_join(bing_lex, by = "word") %>%
+  count(year, index = index , sentiment) %>%
+  ungroup() %>%
+  spread(sentiment, n, fill = 0) %>%
+  mutate(sentiment = positive - negative,
+         date = factor(year)) %>%
+  ggplot(aes(index, sentiment, fill = year)) +
+  geom_bar(alpha = 0.5, stat = "identity", show.legend = FALSE) +
+  facet_wrap(~ date, ncol = 2, scales = "free_x")
+bing_score
+
+#future coding: look into pair of words
 
 ```
