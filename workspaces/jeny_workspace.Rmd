@@ -156,7 +156,7 @@ link <- unlist(links_actual, use.names=FALSE)
 # Combine data into a data frame with titles, contents, and links
 df_content <- as.data.frame(cbind(title, content, link))
 
-# df_content
+df_content
 
 ```
 

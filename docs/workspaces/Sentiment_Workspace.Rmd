@@ -1,0 +1,91 @@
+---
+title: "Sentiment Analysis Workspace"
+author: "Yejin Hwang"
+date: "4/14/2020"
+output: html_document
+---
+
+```{r settingUp}
+library(dplyr)
+library(tidytext)
+library(textdata)
+```
+
+
+```{r, eval=FALSE}
+# afinn from Finn Årup Nielsen,
+# bing from Bing Liu and collaborators, and
+# nrc from Saif Mohammad and Peter Turney.
+
+# Count words by sentiment in each lexicon:
+get_sentiments("nrc") %>%
+  count(sentiment) 
+
+get_sentiments("bing") %>% 
+  count(sentiment)
+
+# Access eacg lexicon and assign it:
+nrc <- get_sentiments("nrc")
+
+bing <- get_sentiments("bing")
+
+# Use data frame with text data, and implement sentiment analysis using inner joint
+our_text_from_letters %>%
+  inner_join(nrc)
+
+our_text_from_letters %>%
+  inner_join(bing)
+```
+
+```{r}
+# nrc
+# Citation: Saif M. Mohammad and Peter Turney. (2013), ``Crowdsourcing a Word-Emotion Association Lexicon.'' Computational Intelligence, 29(3): 436-465.
+
+get_sentiments("nrc") %>%
+  count(sentiment) 
+
+nrc <- get_sentiments("nrc")
+```
+
+```{r}
+# Our data (w/ code from other workspaces)
+load("textdata.Rda")
+
+df_filterNRCwords <- df_full %>% 
+  unnest_tokens(word, content)%>%
+  inner_join(nrc) 
+
+# Comparing pre-COVID19 and post-COVID19
+df_prePost <- df_filterNRCwords %>% 
+  mutate(postCo = if_else(date>="2020-02-07", 1, 0)) 
+
+df_prePost %>% 
+  group_by(postCo,sentiment) %>% 
+  summarise(N=n()) %>% 
+  group_by(sentiment) %>% 
+  arrange(postCo,-N)
+```
+
+```{r}
+# Using word cloud (thank you whitney) to compare positive words (the greatest number for both pre and post COVID)
+#word cloud of 50 most frequently used negative and positive words
+library(wordcloud)
+library(reshape2)
+
+# PRE
+df_prePost %>% 
+  filter(postCo==0) %>% 
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("red", "green"),
+                   max.words = 50)
+# POST
+df_prePost %>% 
+  filter(postCo==1) %>% 
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("red", "green"),
+                   max.words = 50)
+```
+
+
