@@ -25,6 +25,3 @@ navbar:
       href: methods.html
     - text: "Results"
       href: analysis.html
-#  right:
-#    - icon: fa-slack fa-lg
-#      href: https://2018-fall-sds-albert.slack.com/
