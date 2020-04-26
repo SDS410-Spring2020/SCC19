@@ -15,7 +15,7 @@ output:
     code_folding: hide
 # All fa icons were obtained from https://fontawesome.com/icons?d=gallery
 navbar:
-  title: "Schools Communicating COVID-19"
+  title: "Smith College Communicating COVID-19"
   left:
     - text: "Backgorund"
       href: index.html

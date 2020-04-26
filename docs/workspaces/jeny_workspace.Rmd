@@ -7,9 +7,6 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
-```
-
-```{r}
 library(tidyverse)
 library(rvest)
 library(pdftools)
@@ -196,6 +193,8 @@ df_tidy <- df_tidy %>%
   group_by(ID) %>% 
   mutate(wordcount = row_number()) %>% 
   ungroup()
+
+View(df_tidy)
 ```
 
 ```{r}
