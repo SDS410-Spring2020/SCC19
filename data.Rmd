@@ -1,10 +1,8 @@
 ---
 title: "Data"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
   html_document:
+    code_folding: hide
     df_print: kable
     toc: yes
     toc_depth: 2
@@ -12,9 +10,8 @@ output:
 date: "Last updated on `r Sys.Date()`"
 ---
 
-```{r setup, include=FALSE, echo=FALSE, warning=FALSE}
-knitr::opts_chunk$set(
-  echo = FALSE, message = FALSE, warning = FALSE, fig.width = 16/2, fig.height = 9/2
+```{r setup, message = FALSE, warning=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.width = 6, fig.height = 9/2
 )
 
 library(tidyverse)
@@ -31,9 +28,6 @@ The data for this analysis comes from publically available collegiate news posti
 * Word counts do not include "filler" words, such as "of", "the", "to", and "in."
 
 ## Data Collection
-In order to collect this data, we employed a series of webscraping techniques through R, primarily using rvest and httr packages. Initial collection involved scraping all available links on the landing page for the community letters. These links are each associated with a unique letter, and were then individually accessed through the construction of a function designed to iterate over each URL and scrape the contents of the related webpage. Once the contents of each webpage was scraped, we were able to summarise each letter in one row of a dataframe, with a single column containing all of the letter's text. With help from the tidytext package, designed for sentiment analysis and text parsing, we were then able to seperate out each individual word from each letter into its own row, leaving us with an expansive data set explicitly showcasing the entire textual composition of each letter. In order to perform sentiment analysis, we proceeded to download and join data sets associated with three seperate sentiment lexiscons (NRC, Afinn, and Bing) to our letters data set, producing additional dataframes wherein individual words identified with their lexicon-specific sentiment rating. These data sets can  be manipulated, summarized, and plotted as any dataframe in R, and their content can be used to assess a variety of sentiment constructs within the letters. 
-
-
 
 ```{r}
 # Scrape urls from main webpage with all the letters
@@ -45,32 +39,19 @@ links <- url %>%
   html_nodes("a") %>%
   sub(pattern = '<a href="', replacement = "") %>%
   sub(pattern = '(\\".*)', replacement = "")
-```
 
-
-
-```{r}
 # Remove main domain to have clean data- most are missing the domain url 
 links_clean <- links %>% 
   str_replace("https://www.smith.edu", "") 
-  
-```
 
-```{r}
 # Only include urls from 2017-18, 2018-19, and 2019-20
 years = c("2019-20", "2018-19", "2017-18")
 
 links_years <- links_clean[!links_clean %in% grep(paste0(years, collapse = "|"), links_clean, value = T, invert = T)]
 
-```
-
-```{r}
 # Add main domain page to each url
 links_url <- paste("https://www.smith.edu", links_years,  sep="")
 
-```
-
-```{r}
 # Check if each of the urls exists
 urls_exist <- c()
 check_exists <- function(links_url, urls_exist){
@@ -83,17 +64,9 @@ check_exists <- function(links_url, urls_exist){
 
 working_urls <- lapply(links_url, check_exists, urls_exist)
 
-
-```
-
-
-```{r}
 # Only include urls that are valid/exist
 links_actual <- unlist(working_urls)
 
-```
-
-```{r}
 # Scrape title of each letter
 title <- lapply(links_actual,
               function(links_actual) {
@@ -113,12 +86,6 @@ content <- lapply(links_actual,
               }
 )
 
-
-
-
-```
-
-```{r}
 # Get titles of each letter from the main webpage
 titles_dates <- url %>%
   html_nodes(".field-item") %>%
@@ -140,6 +107,10 @@ date <- lapply(title_dates,
                 }
 )
 
+```
+
+
+```{r}
 # Unlist dates vector
 date <- unlist(date, use.names=FALSE)
 
@@ -149,11 +120,7 @@ link <- unlist(links_url, use.names=FALSE)
 
 # Create data frame with extracted dates and links
 df_dates <- as.data.frame(cbind(date, link))
-```
 
-
-
-```{r}
 # Unlist extracted text from each category
 title <- unlist(title, use.names=FALSE) 
 
@@ -164,10 +131,6 @@ link <- unlist(links_actual, use.names=FALSE)
 # Combine data into a data frame with titles, contents, and links
 df_content <- as.data.frame(cbind(title, content, link))
 
-```
-
-
-```{r}
 # Join data data frame with dates with data frame with content
 df_full <- inner_join(df_content, df_dates,  by = "link")
 
@@ -185,10 +148,14 @@ df_full$date <-
                 as.Date(as.factor(df_full$date), format ="%B %d, %Y")
 
 df_full <- tibble::rowid_to_column(df_full, "ID")
-
-
-#View(df_full)
 ```
+
+In order to collect this data, we employed a series of webscraping techniques through R, primarily using rvest and httr packages. Initial collection involved scraping all available links on the landing page for the community letters. These links are each associated with a unique letter, and were then individually accessed through the construction of a function designed to iterate over each URL and scrape the contents of the related webpage. Once the contents of each webpage was scraped, we were able to summarise each letter in one row of a dataframe, with a single column containing all of the letter's text. With help from the tidytext package, designed for sentiment analysis and text parsing, we were then able to seperate out each individual word from each letter into its own row, leaving us with an expansive data set explicitly showcasing the entire textual composition of each letter. In order to perform sentiment analysis, we proceeded to download and join data sets associated with three seperate sentiment lexiscons (NRC, Afinn, and Bing) to our letters data set, producing additional dataframes wherein individual words identified with their lexicon-specific sentiment rating. These data sets can  be manipulated, summarized, and plotted as any dataframe in R, and their content can be used to assess a variety of sentiment constructs within the letters. 
+
+
+## Data Variables
+
+The table below is a small sample of the complete data set with the title of each community letter, the link, the date it was published, each word within the letter, and the word position in each letter. 
 
 ```{r}
 # Trasnform to tidy text data and remove words such as "of, the, to, in"
@@ -203,15 +170,6 @@ df_tidy <- df_tidy %>%
   mutate(word_number = row_number()) %>% 
   ungroup()
 
-#View(df_tidy)
-```
-
-
-## Data Variables
-
-The table below is a small sample of the complete data set with the title of each community letter, the link, the date it was published, each word within the letter, and the word position in each letter. 
-
-```{r}
 head(df_tidy, n=10)
 ```
 
