@@ -23,6 +23,7 @@ library(httr)
 ```
 
 ## Background of Data
+
 The data for this analysis comes from publically available collegiate news postings hosted through the Smith College website. In order to communicate efficiently with students, families, faculty members, and the community, the College frequently opts to publish "letters", or briefings related to current events on campus or on topics that are otherwise relevant to the workings of the College. Some of these letters come directly from Smith College President Kathleen McCartney, while others do not specify authorship and simply communicate information. The letters range from 56 words in length to 783 words*. These letters represent valuable data because of their centrality to the Smith Community; the publication of a letter is typically accompanied by an email to students, faculty, staff, and alumnx who choose to receive notifications about the College. Because they are designed to communicate the Smith administration's position on current events and situations at the College, these letters are an excellent resource for assessing sentiment in the highest levels of the Smith administrative hiaerarchy.
 
 * Word counts do not include "filler" words, such as "of", "the", "to", and "in."
