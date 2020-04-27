@@ -17,7 +17,7 @@ output:
 navbar:
   title: "Smith College Communicating COVID-19"
   left:
-    - text: "Backgorund"
+    - text: "Background"
       href: index.html
     - text: "Data"
       href: data.html
