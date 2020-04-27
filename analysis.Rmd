@@ -17,8 +17,85 @@ knitr::opts_chunk$set(
 
 ## Results
 
+```{r} 
+#starter code :)
+#loading libraries
+library(tidytext)
+library(stringr)
+library(tidyverse)
+library(wordcloud)
+library(dplyr)
+library(reshape2)
+library(lubridate)
+library(ggplot2)
+
+#load the rda file
+load(file = "textdata.Rda")
+
+#code to get started
+#"pasted this part from Emily :), original code by Jeny :)"
+df_tidy <- df_full %>% 
+  unnest_tokens(word, content) %>% 
+  anti_join(stop_words) 
+```
+
 
 ## Visualization 1
+
+```{r}
+#calls for bing sentiment lexicon 
+bing_lex = get_sentiments("bing")
+
+#each year splits into groups of 50 words (we can vary this)
+#sentiment score is calculated
+bing_score <- df_tidy %>%
+  mutate(year = year(date)) %>%
+  group_by(year) %>% 
+  mutate(word_count = 1:n(),
+         index = word_count %/% 50 + 1) %>% 
+  inner_join(bing_lex, by = "word") %>%
+  count(year, index = index , sentiment) %>%
+  ungroup() %>%
+  spread(sentiment, n, fill = 0) %>%
+  mutate(sentiment = positive - negative,
+         date = factor(year))
+
+#separates text into pairs, eliminates stop words
+df_pairs <- df_full %>%
+  unnest_tokens(bigram, content, token = "ngrams", n = 2) %>%
+  separate(bigram, c("word1", "word2"), sep = " ")%>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word)
+
+#joins the two separate stings into one string
+df_united <- df_pairs %>%
+  unite(bigram, word1, word2, sep = " ")
+
+#uses the term frequency -inverse document frequency aka tf-idf
+#tf-idf is how frequent a pair word appears in one community letter
+#given how often it appears in other community letters by YEAR
+df_tf_idf <- df_united %>%
+  mutate(year = year(date)) %>%
+  group_by(year) %>%
+  count(date, bigram) %>%
+  bind_tf_idf(bigram, date, n) %>%
+  arrange(desc(tf_idf))
+
+#plot of the top ten bigrams with the highest tf-idf scores among
+#among the overall community letters by YEAR
+scc_plot <- df_tf_idf %>%
+  arrange(desc(tf_idf)) %>%
+  mutate(bigram = factor(bigram, levels = rev(unique(bigram))))
+
+scc_plot %>% 
+  top_n(15) %>%
+  ungroup() %>%
+  ggplot(aes(bigram, tf_idf, fill = factor(year))) +
+  geom_col() +
+  facet_wrap(~factor(year), ncol = 2, scales = "free") +
+  labs(x = NULL, y = "tf-idf") +
+  coord_flip()
+```
 
 
 ## Visualization 2
