@@ -65,6 +65,7 @@ bing_score <- df_tidy %>%
 bing_score
 ```
 
+to be continued.
 
 ## Visualization 2
 
