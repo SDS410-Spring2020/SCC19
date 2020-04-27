@@ -495,8 +495,8 @@ div.tocify {
 <span id="cb1-18"><a href="#cb1-18"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(word, content) <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb1-19"><a href="#cb1-19"></a><span class="st">  </span><span class="kw">anti_join</span>(stop_words) </span></code></pre></div>
 </div>
-<div id="visualization-1" class="section level2">
-<h2>Visualization 1</h2>
+<div id="negative-sentiment-of-2020-emails" class="section level2">
+<h2>Negative Sentiment of 2020 Emails</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#calls for bing sentiment lexicon </span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>bing_lex =<span class="st"> </span><span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
@@ -512,43 +512,11 @@ div.tocify {
 <span id="cb2-13"><a href="#cb2-13"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
 <span id="cb2-14"><a href="#cb2-14"></a><span class="st">  </span><span class="kw">spread</span>(sentiment, n, <span class="dt">fill =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></span>
 <span id="cb2-15"><a href="#cb2-15"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sentiment =</span> positive <span class="op">-</span><span class="st"> </span>negative,</span>
-<span id="cb2-16"><a href="#cb2-16"></a>         <span class="dt">date =</span> <span class="kw">factor</span>(year))</span>
-<span id="cb2-17"><a href="#cb2-17"></a></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#separates text into pairs, eliminates stop words</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a>df_pairs &lt;-<span class="st"> </span>df_full <span class="op">%&gt;%</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(bigram, content, <span class="dt">token =</span> <span class="st">&quot;ngrams&quot;</span>, <span class="dt">n =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="st">  </span><span class="kw">separate</span>(bigram, <span class="kw">c</span>(<span class="st">&quot;word1&quot;</span>, <span class="st">&quot;word2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)<span class="op">%&gt;%</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word1 <span class="op">%in%</span><span class="st"> </span>stop_words<span class="op">$</span>word) <span class="op">%&gt;%</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>word2 <span class="op">%in%</span><span class="st"> </span>stop_words<span class="op">$</span>word)</span>
-<span id="cb2-24"><a href="#cb2-24"></a></span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#joins the two separate stings into one string</span></span>
-<span id="cb2-26"><a href="#cb2-26"></a>df_united &lt;-<span class="st"> </span>df_pairs <span class="op">%&gt;%</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a><span class="st">  </span><span class="kw">unite</span>(bigram, word1, word2, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb2-28"><a href="#cb2-28"></a></span>
-<span id="cb2-29"><a href="#cb2-29"></a><span class="co">#uses the term frequency -inverse document frequency aka tf-idf</span></span>
-<span id="cb2-30"><a href="#cb2-30"></a><span class="co">#tf-idf is how frequent a pair word appears in one community letter</span></span>
-<span id="cb2-31"><a href="#cb2-31"></a><span class="co">#given how often it appears in other community letters by YEAR</span></span>
-<span id="cb2-32"><a href="#cb2-32"></a>df_tf_idf &lt;-<span class="st"> </span>df_united <span class="op">%&gt;%</span></span>
-<span id="cb2-33"><a href="#cb2-33"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">year</span>(date)) <span class="op">%&gt;%</span></span>
-<span id="cb2-34"><a href="#cb2-34"></a><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></span>
-<span id="cb2-35"><a href="#cb2-35"></a><span class="st">  </span><span class="kw">count</span>(date, bigram) <span class="op">%&gt;%</span></span>
-<span id="cb2-36"><a href="#cb2-36"></a><span class="st">  </span><span class="kw">bind_tf_idf</span>(bigram, date, n) <span class="op">%&gt;%</span></span>
-<span id="cb2-37"><a href="#cb2-37"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(tf_idf))</span>
-<span id="cb2-38"><a href="#cb2-38"></a></span>
-<span id="cb2-39"><a href="#cb2-39"></a><span class="co">#plot of the top ten bigrams with the highest tf-idf scores among</span></span>
-<span id="cb2-40"><a href="#cb2-40"></a><span class="co">#among the overall community letters by YEAR</span></span>
-<span id="cb2-41"><a href="#cb2-41"></a>scc_plot &lt;-<span class="st"> </span>df_tf_idf <span class="op">%&gt;%</span></span>
-<span id="cb2-42"><a href="#cb2-42"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(tf_idf)) <span class="op">%&gt;%</span></span>
-<span id="cb2-43"><a href="#cb2-43"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">bigram =</span> <span class="kw">factor</span>(bigram, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">unique</span>(bigram))))</span>
-<span id="cb2-44"><a href="#cb2-44"></a></span>
-<span id="cb2-45"><a href="#cb2-45"></a>scc_plot <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-46"><a href="#cb2-46"></a><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">15</span>) <span class="op">%&gt;%</span></span>
-<span id="cb2-47"><a href="#cb2-47"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
-<span id="cb2-48"><a href="#cb2-48"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(bigram, tf_idf, <span class="dt">fill =</span> <span class="kw">factor</span>(year))) <span class="op">+</span></span>
-<span id="cb2-49"><a href="#cb2-49"></a><span class="st">  </span><span class="kw">geom_col</span>() <span class="op">+</span></span>
-<span id="cb2-50"><a href="#cb2-50"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="kw">factor</span>(year), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span></span>
-<span id="cb2-51"><a href="#cb2-51"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="ot">NULL</span>, <span class="dt">y =</span> <span class="st">&quot;tf-idf&quot;</span>) <span class="op">+</span></span>
-<span id="cb2-52"><a href="#cb2-52"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
+<span id="cb2-16"><a href="#cb2-16"></a>         <span class="dt">date =</span> <span class="kw">factor</span>(year)) <span class="op">%&gt;%</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(index, sentiment, <span class="dt">fill =</span> year)) <span class="op">+</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>date, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>)</span>
+<span id="cb2-20"><a href="#cb2-20"></a>bing_score</span></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
 </div>
 <div id="visualization-2" class="section level2">
