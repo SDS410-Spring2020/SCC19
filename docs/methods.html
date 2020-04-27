@@ -367,7 +367,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Methods</h1>
-<h4 class="date">Last updated on 2020-04-26</h4>
+<h4 class="date">Last updated on 2020-04-27</h4>
 
 </div>
 
@@ -381,7 +381,7 @@ div.tocify {
 </div>
 <div id="the-bing-lexicon" class="section level3">
 <h3>The bing Lexicon</h3>
-<p>bing categorizes the sentiment into a binary either positive or negative. The original use of bing was to evaluate social media entries such as reviews or blog posts. Not all words will be given a sentiment value with this lexicon. For purposes of this project, the sentiment score the difference between the maximum sentiment score and the minimum sentiment score for each year letters to the community were sent was calculated.</p>
+<p>bing categorizes the sentiment into a binary either positive or negative. This method assist in analyzing the broad feeling of the content. The original use of bing was to evaluate social media entries such as reviews or blog posts. bing does not have a a numerical value, so we assign <span class="math inline">\(+1\)</span> to positive words and <span class="math inline">\(-1\)</span> to negative words. Not all words will be given a sentiment value with this lexicon. For purposes of this project, each year was split into groups of 50 words, and the number of positive and negative words in each group were counted. The difference between the number of negative words and the number of positive words in each group is found to get each group sentiment score. Lastly, the sentiment score the difference between the maximum sentiment score and the minimum sentiment score for each year letters to the community were sent was calculated.</p>
 </div>
 </div>
 
