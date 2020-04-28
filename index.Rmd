@@ -15,5 +15,36 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r}
+#loading libraries
+library(tidytext)
+library(stringr)
+library(tidyverse)
+library(wordcloud)
+library(dplyr)
+library(reshape2)
+library(lubridate)
+library(ggplot2)
+
+#load the rda file
+load(file = "textdata.Rda")
+
+#code to get started
+#"pasted this part from Emily :), original code by Jeny :)"
+df_tidy <- df_full %>% 
+  unnest_tokens(word, content) %>% 
+  anti_join(stop_words) 
+```
+
 ## Introduction
 
+```{r}
+#word cloud of 100 most frequently written words
+df_word <- df_tidy %>%
+  count(word) %>%
+  with(wordcloud(word, n, max.words = 100, color = palette()))
+
+```
+Inspired by how the Smith College administration uses email as the main communication to its wider community, we aimed to conduct text analysis of the number of emails the school has sent throughout the four years to assess its response to the COVID-19 pandemic. We believe that in a sea of emails filled with a lot of text, sentiment analysis makes sense because we need methods that can help us easily sort and understand the contents. In our analysis, we hope to contextualize the emails in the following ways:
+** In measuring the polarity of the emails, we will use a binary lexicon bing to classify the text as either negative or positive.
+** 
