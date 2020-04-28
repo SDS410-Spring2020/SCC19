@@ -28,9 +28,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -40,16 +40,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -58,9 +56,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  background-color: #f8f8f8; }
+  { background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -468,35 +466,35 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Background</h1>
-<h4 class="date">Last updated on 2020-04-27</h4>
+<h4 class="date">Last updated on 2020-04-28</h4>
 
 </div>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#loading libraries</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidytext)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(stringr)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(wordcloud)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">library</span>(reshape2)</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">library</span>(lubridate)</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb1-10"><a href="#cb1-10"></a></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#load the rda file</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;textdata.Rda&quot;</span>)</span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#code to get started</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&quot;pasted this part from Emily :), original code by Jeny :)&quot;</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>df_tidy &lt;-<span class="st"> </span>df_full <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(word, content) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="st">  </span><span class="kw">anti_join</span>(stop_words) </span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">#loading libraries</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(tidytext)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(stringr)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(wordcloud)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">library</span>(reshape2)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(lubridate)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#load the rda file</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;textdata.Rda&quot;</span>)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#code to get started</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&quot;pasted this part from Emily :), original code by Jeny :)&quot;</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">df_tidy &lt;-<span class="st"> </span>df_full <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="st">  </span><span class="kw">unnest_tokens</span>(word, content) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="st">  </span><span class="kw">anti_join</span>(stop_words) </a></code></pre></div>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#word cloud of 100 most frequently written words</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>df_word &lt;-<span class="st"> </span>df_tidy <span class="op">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span><span class="kw">count</span>(word) <span class="op">%&gt;%</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="st">  </span><span class="kw">with</span>(<span class="kw">wordcloud</span>(word, n, <span class="dt">max.words =</span> <span class="dv">100</span>, <span class="dt">color =</span> <span class="kw">palette</span>()))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#word cloud of 100 most frequently written words</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">df_word &lt;-<span class="st"> </span>df_tidy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">count</span>(word) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="st">  </span><span class="kw">with</span>(<span class="kw">wordcloud</span>(word, n, <span class="dt">max.words =</span> <span class="dv">100</span>, <span class="dt">color =</span> <span class="kw">palette</span>()))</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="768" /> Inspired by how the Smith College administration uses email as the main communication to its wider community, we aimed to conduct text analysis of the number of emails the school has sent throughout the four years to assess its response to the COVID-19 pandemic. We believe that in a sea of emails filled with a lot of text, sentiment analysis makes sense because we need methods that can help us easily sort and understand the contents. In our analysis, we hope to contextualize the emails in three ways. In measuring the polarity of the emails, we will use a binary lexicon, <code>bing</code>, to classify the text as either negative or positive. We will also detect emotions within the text with the use of the <code>nrc</code>. Emotions are positive, negative, anger, anticipation, disgust, fear, joy, sadness, surprise, and trust. Lastly, we will assess the text numerically using a non binary, scaling method <span class="math inline">\([-5, 5]\)</span> with the <code>AFINN</code> lexicon.</p>
 </div>
 
