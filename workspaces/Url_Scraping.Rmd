@@ -7,9 +7,6 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r}
 library(tidyverse)
 library(rvest)
 library(pdftools)
@@ -17,6 +14,7 @@ library(dplyr)
 library(glue)
 library(httr)
 ```
+
 
 ```{r}
 # Scrape urls from main webpage with all the letters
@@ -154,8 +152,23 @@ link <- unlist(links_actual, use.names=FALSE)
 # Combine data into a data frame
 df <- as.data.frame(cbind(title, content, link))
 
-View(df)
+#View(df)
 
 ```
 
+```{r}
+# Trasnform to tidy text data and remove words such as "of, the, to, in"
+library(tidytext)
+
+df_tidy <- df_full %>% 
+  unnest_tokens(word, content) %>% 
+  anti_join(stop_words)
+
+df_tidy <- df_tidy %>% 
+  group_by(ID) %>% 
+  mutate(wordcount = row_number()) %>% 
+  ungroup()
+
+#View(df_tidy)
+```
 

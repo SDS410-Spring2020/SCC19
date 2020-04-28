@@ -1,0 +1,28 @@
+---
+title: "Methods"
+date: "Last updated on `r Sys.Date()`"
+output:
+  html_document:
+    df_print: kable
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, warning = FALSE, fig.width = 16/2, fig.height = 9/2
+)
+```
+
+## Methodology
+
+After the process of data aquisition was completed, we were set up to begin performing sentiment analysis on each of the letters scraped from the Smith College webpage. Our decision to use the `tidytext` package was relatively clear-cut; at the current moment, it represents a helpfully consolidated repository for three prominent sentiment lexicons: Bing, AFINN, and NRC. Each of these three lexicons draws upon a different means of categorizing various words, with such distinctions providing a basis for significant breadth in analysis. Along with some basic functions included in the `tidytext` package for wrangling text data into manageable input for lexicon-based analysis, the lexicons themselves allow for well-documented and explicit sentiment analysis to be performed.
+
+### The AFINN Lexicon
+
+Distinct from the binary categorization of Bing and the explicit sentiment labeling of NRC, AFINN makes use of a range of scores (from -5 to 5) to classify words based on their perceived meaning and implicit emotional message. Positive scores indicate more positive sentiments in this lexicon, and the ordinal numeric quality of these classifications allow for some unique forms of analysis (i.e. mean sentiment for a chunk of text). AFINN contains sentiment labels for over 3,300 words, and is offered in four languages (including emoticon).
+
+### The bing Lexicon
+
+bing categorizes the sentiment into a binary either positive or negative. This method assist in analyzing the broad feeling of the content. The original use of bing was to evaluate social media entries such as reviews or blog posts. bing does not have a a numerical value, so we assign $+1$ to positive words and $-1$ to negative words. Not all words will be given a sentiment value with this lexicon. For purposes of this project, each year was split into groups of 50 words, and the number of positive and negative words in each group were counted. The difference between the number of negative words and the number of positive words in each group is found to get each group sentiment score. Lastly, the sentiment score the difference between the maximum sentiment score and the minimum sentiment score for each year letters to the community were sent was calculated.

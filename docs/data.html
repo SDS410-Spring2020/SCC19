@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Smith College Communicating COVID-19</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Background</a>
+</li>
+<li>
+  <a href="data.html">Data</a>
+</li>
+<li>
+  <a href="methods.html">Methodology</a>
+</li>
+<li>
+  <a href="analysis.html">Results</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Data</h1>
+<h4 class="date">Last updated on 2020-04-27</h4>
+
+</div>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">message =</span> <span class="ot">FALSE</span>, <span class="dt">warning =</span> <span class="ot">FALSE</span>, <span class="dt">fig.width =</span> <span class="dv">6</span>, <span class="dt">fig.height =</span> <span class="dv">9</span><span class="op">/</span><span class="dv">2</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(rvest)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(pdftools)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">library</span>(glue)</span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">library</span>(httr)</span></code></pre></div>
+<div id="background-of-data" class="section level2">
+<h2>Background of Data</h2>
+<p>The data for this analysis comes from publically available collegiate news postings hosted through the Smith College website. In order to communicate efficiently with students, families, faculty members, and the community, the College frequently opts to publish “letters”, or briefings related to current events on campus or on topics that are otherwise relevant to the workings of the College. Some of these letters come directly from Smith College President Kathleen McCartney, while others do not specify authorship and simply communicate information. The letters range from 56 words in length to 783 words*. These letters represent valuable data because of their centrality to the Smith Community; the publication of a letter is typically accompanied by an email to students, faculty, staff, and alumnx who choose to receive notifications about the College. Because they are designed to communicate the Smith administration’s position on current events and situations at the College, these letters are an excellent resource for assessing sentiment in the highest levels of the Smith administrative hiaerarchy.</p>
+<ul>
+<li>Word counts do not include “filler” words, such as “of”, “the”, “to”, and “in.”</li>
+</ul>
+</div>
+<div id="data-collection" class="section level2">
+<h2>Data Collection</h2>
+<p>In order to collect this data, we employed a series of webscraping techniques through R, primarily using rvest and httr packages. Initial collection involved scraping all available links on the landing page for the community letters. These links are each associated with a unique letter, and were then individually accessed through the construction of a function designed to iterate over each URL and scrape the contents of the related webpage. Once the contents of each webpage was scraped, we were able to summarise each letter in one row of a dataframe, with a single column containing all of the letter’s text. With help from the tidytext package, designed for sentiment analysis and text parsing, we were then able to seperate out each individual word from each letter into its own row, leaving us with an expansive data set explicitly showcasing the entire textual composition of each letter. In order to perform sentiment analysis, we proceeded to download and join data sets associated with three seperate sentiment lexiscons (NRC, Afinn, and Bing) to our letters data set, producing additional dataframes wherein individual words identified with their lexicon-specific sentiment rating. These data sets can be manipulated, summarized, and plotted as any dataframe in R, and their content can be used to assess a variety of sentiment constructs within the letters.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Scrape urls from main webpage with all the letters</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>url &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;https://www.smith.edu/president-kathleen-mccartney/letters-community&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a>links &lt;-<span class="st"> </span>url <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="st">  </span><span class="kw">html_nodes</span>(<span class="st">&quot;.field-item&quot;</span>) <span class="op">%&gt;%</span><span class="st">   </span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="st">  </span><span class="kw">html_nodes</span>(<span class="st">&quot;li&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw">html_nodes</span>(<span class="st">&quot;a&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="st">  </span><span class="kw">sub</span>(<span class="dt">pattern =</span> <span class="st">&#39;&lt;a href=&quot;&#39;</span>, <span class="dt">replacement =</span> <span class="st">&quot;&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="st">  </span><span class="kw">sub</span>(<span class="dt">pattern =</span> <span class="st">&#39;(</span><span class="ch">\\</span><span class="st">&quot;.*)&#39;</span>, <span class="dt">replacement =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co"># Remove main domain to have clean data- most are missing the domain url </span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>links_clean &lt;-<span class="st"> </span>links <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="st">  </span><span class="kw">str_replace</span>(<span class="st">&quot;https://www.smith.edu&quot;</span>, <span class="st">&quot;&quot;</span>) </span>
+<span id="cb2-14"><a href="#cb2-14"></a>  </span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co"># Add main domain page to each url</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>links_url &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;https://www.smith.edu&quot;</span>, links_clean,  <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb2-17"><a href="#cb2-17"></a></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co"># # Testing purposes (less data)</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co"># years = c(&quot;2019-20&quot;)</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co"># Only include urls from 2017-18, 2018-19, and 2019-20</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a>years =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;2019-20&quot;</span>, <span class="st">&quot;2018-19&quot;</span>, <span class="st">&quot;2017-18&quot;</span>)</span>
+<span id="cb2-22"><a href="#cb2-22"></a></span>
+<span id="cb2-23"><a href="#cb2-23"></a>links_years &lt;-<span class="st"> </span>links_url[<span class="op">!</span>links_url <span class="op">%in%</span><span class="st"> </span><span class="kw">grep</span>(<span class="kw">paste0</span>(years, <span class="dt">collapse =</span> <span class="st">&quot;|&quot;</span>), links_url, <span class="dt">value =</span> T, <span class="dt">invert =</span> T)]</span>
+<span id="cb2-24"><a href="#cb2-24"></a></span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="co"># Check if each of the urls exists</span></span>
+<span id="cb2-26"><a href="#cb2-26"></a>urls_exist &lt;-<span class="st"> </span><span class="kw">c</span>()</span>
+<span id="cb2-27"><a href="#cb2-27"></a>check_exists &lt;-<span class="st"> </span><span class="cf">function</span>(links_years, urls_exist){</span>
+<span id="cb2-28"><a href="#cb2-28"></a>  <span class="cf">if</span>(<span class="kw">GET</span>(links_years, <span class="dt">body =</span> F)[<span class="dv">2</span>]<span class="op">==</span><span class="dv">200</span>){</span>
+<span id="cb2-29"><a href="#cb2-29"></a>    urls_exist &lt;-<span class="st"> </span><span class="kw">c</span>(urls_exist, links_years)</span>
+<span id="cb2-30"><a href="#cb2-30"></a>  }<span class="cf">else</span>{</span>
+<span id="cb2-31"><a href="#cb2-31"></a>    <span class="kw">return</span>()</span>
+<span id="cb2-32"><a href="#cb2-32"></a>  }</span>
+<span id="cb2-33"><a href="#cb2-33"></a>}</span>
+<span id="cb2-34"><a href="#cb2-34"></a></span>
+<span id="cb2-35"><a href="#cb2-35"></a><span class="co"># Only include urls that are valid/exist</span></span>
+<span id="cb2-36"><a href="#cb2-36"></a>working_urls &lt;-<span class="st"> </span><span class="kw">lapply</span>(links_years, check_exists, urls_exist)</span>
+<span id="cb2-37"><a href="#cb2-37"></a>links_actual &lt;-<span class="st"> </span><span class="kw">unlist</span>(working_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Scrape title of each letter</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>title &lt;-<span class="st"> </span><span class="kw">lapply</span>(links_actual,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>              <span class="cf">function</span>(links_actual) {</span>
+<span id="cb3-4"><a href="#cb3-4"></a>                links_actual <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">read_html</span>() <span class="op">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="st">                </span><span class="kw">html_node</span>(<span class="st">&quot;.page-title&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="st">                </span><span class="kw">html_text</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="st">                </span><span class="kw">sub</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">replacement =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>              }</span>
+<span id="cb3-9"><a href="#cb3-9"></a>) </span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co"># Scrape content of each letter</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>content &lt;-<span class="st"> </span><span class="kw">lapply</span>(links_actual,</span>
+<span id="cb3-13"><a href="#cb3-13"></a>              <span class="cf">function</span>(links_actual) {</span>
+<span id="cb3-14"><a href="#cb3-14"></a>                links_actual <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">read_html</span>() <span class="op">%&gt;%</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="st">                </span><span class="kw">html_node</span>(<span class="st">&quot;.left-column-text&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="st">                </span><span class="kw">html_node</span>(<span class="st">&quot;.field-item.even&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="st">                </span><span class="kw">html_text</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="st">                </span><span class="kw">sub</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">replacement =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb3-19"><a href="#cb3-19"></a>              }</span>
+<span id="cb3-20"><a href="#cb3-20"></a>)</span>
+<span id="cb3-21"><a href="#cb3-21"></a></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co"># Get titles of each letter from the main webpage</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a>titles_dates &lt;-<span class="st"> </span>url <span class="op">%&gt;%</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="st">  </span><span class="kw">html_nodes</span>(<span class="st">&quot;.field-item&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="st">  </span><span class="kw">html_nodes</span>(<span class="st">&quot;li&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="st">  </span><span class="kw">html_nodes</span>(<span class="st">&quot;a&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="st">  </span><span class="kw">html_text</span>()</span>
+<span id="cb3-28"><a href="#cb3-28"></a></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co"># Unlist vector of </span></span>
+<span id="cb3-30"><a href="#cb3-30"></a>title_dates &lt;-<span class="st"> </span><span class="kw">unlist</span>(titles_dates)</span>
+<span id="cb3-31"><a href="#cb3-31"></a></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co"># Date format to search for</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a>date_format &lt;-<span class="st"> &quot;[A-Z]{1}[a-z]{1,10} [0-9]{1,2}, [0-9]{4}&quot;</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co"># Extract date using above format from titles</span></span>
+<span id="cb3-36"><a href="#cb3-36"></a>date &lt;-<span class="st"> </span><span class="kw">lapply</span>(title_dates,</span>
+<span id="cb3-37"><a href="#cb3-37"></a>                <span class="cf">function</span>(title_dates) {</span>
+<span id="cb3-38"><a href="#cb3-38"></a>                 <span class="kw">str_extract</span>(<span class="dt">string =</span> title_dates,</span>
+<span id="cb3-39"><a href="#cb3-39"></a>                             <span class="dt">pattern =</span> date_format)</span>
+<span id="cb3-40"><a href="#cb3-40"></a>                }</span>
+<span id="cb3-41"><a href="#cb3-41"></a>)</span>
+<span id="cb3-42"><a href="#cb3-42"></a></span>
+<span id="cb3-43"><a href="#cb3-43"></a><span class="co"># Unlist dates vector</span></span>
+<span id="cb3-44"><a href="#cb3-44"></a>date &lt;-<span class="st"> </span><span class="kw">unlist</span>(date, <span class="dt">use.names=</span><span class="ot">FALSE</span>)</span>
+<span id="cb3-45"><a href="#cb3-45"></a></span>
+<span id="cb3-46"><a href="#cb3-46"></a><span class="co"># Unlink links </span></span>
+<span id="cb3-47"><a href="#cb3-47"></a><span class="co"># links_url from line 41</span></span>
+<span id="cb3-48"><a href="#cb3-48"></a>link &lt;-<span class="st"> </span><span class="kw">unlist</span>(links_url, <span class="dt">use.names=</span><span class="ot">FALSE</span>)</span>
+<span id="cb3-49"><a href="#cb3-49"></a></span>
+<span id="cb3-50"><a href="#cb3-50"></a><span class="co"># Create data frame with extracted dates and links</span></span>
+<span id="cb3-51"><a href="#cb3-51"></a>df_dates &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(date, link))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Unlist extracted text from each category</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>title &lt;-<span class="st"> </span><span class="kw">unlist</span>(title, <span class="dt">use.names=</span><span class="ot">FALSE</span>) </span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a>content &lt;-<span class="st"> </span><span class="kw">unlist</span>(content, <span class="dt">use.names=</span><span class="ot">FALSE</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>link &lt;-<span class="st"> </span><span class="kw">unlist</span>(links_actual, <span class="dt">use.names=</span><span class="ot">FALSE</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co"># Combine data into a data frame with titles, contents, and links</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>df_content &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(title, content, link))</span>
+<span id="cb4-10"><a href="#cb4-10"></a></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co"># Join data data frame with dates with data frame with content</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a>df_full &lt;-<span class="st"> </span><span class="kw">inner_join</span>(df_content, df_dates,  <span class="dt">by =</span> <span class="st">&quot;link&quot;</span>)</span>
+<span id="cb4-13"><a href="#cb4-13"></a></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co"># Change data types</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a>df_full<span class="op">$</span>link &lt;-<span class="st"> </span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="st">                 </span><span class="kw">as.character</span>(<span class="kw">as.factor</span>(df_full<span class="op">$</span>link))</span>
+<span id="cb4-17"><a href="#cb4-17"></a></span>
+<span id="cb4-18"><a href="#cb4-18"></a>df_full<span class="op">$</span>title &lt;-</span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="st">                </span><span class="kw">as.character</span>(<span class="kw">as.factor</span>(df_full<span class="op">$</span>title))</span>
+<span id="cb4-20"><a href="#cb4-20"></a></span>
+<span id="cb4-21"><a href="#cb4-21"></a>df_full<span class="op">$</span>content &lt;-</span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="st">                </span><span class="kw">as.character</span>(<span class="kw">as.factor</span>(df_full<span class="op">$</span>content))</span>
+<span id="cb4-23"><a href="#cb4-23"></a></span>
+<span id="cb4-24"><a href="#cb4-24"></a>df_full<span class="op">$</span>date &lt;-</span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="st">                </span><span class="kw">as.Date</span>(<span class="kw">as.factor</span>(df_full<span class="op">$</span>date), <span class="dt">format =</span><span class="st">&quot;%B %d, %Y&quot;</span>)</span>
+<span id="cb4-26"><a href="#cb4-26"></a></span>
+<span id="cb4-27"><a href="#cb4-27"></a>df_full &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">rowid_to_column</span>(df_full, <span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
+</div>
+<div id="data-variables" class="section level2">
+<h2>Data Variables</h2>
+<p>The table below is a small sample of the complete data set with the title of each community letter, the link, the date it was published, each word within the letter, and the word position in each letter.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Trasnform to tidy text data and remove words such as &quot;of, the, to, in&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">library</span>(tidytext)</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a>df_tidy &lt;-<span class="st"> </span>df_full <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(word, content) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">anti_join</span>(stop_words)</span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a>df_tidy &lt;-<span class="st"> </span>df_tidy <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="st">  </span><span class="kw">group_by</span>(ID) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">word_number =</span> <span class="kw">row_number</span>()) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="st">  </span><span class="kw">ungroup</span>()</span>
+<span id="cb5-12"><a href="#cb5-12"></a></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="kw">head</span>(df_tidy, <span class="dt">n=</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="right">ID</th>
+<th align="left">title</th>
+<th align="left">link</th>
+<th align="left">date</th>
+<th align="left">word</th>
+<th align="right">word_number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">dear</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">students</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">staff</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">faculty</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">spring</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">time</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">renewal</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">anticipation</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">beautiful</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Letter to the Community, April 20, 2020</td>
+<td align="left"><a href="https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020" class="uri">https://www.smith.edu/president-kathleen-mccartney/letters/2019-20/april-20-2020</a></td>
+<td align="left">2020-04-20</td>
+<td align="left">campus</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

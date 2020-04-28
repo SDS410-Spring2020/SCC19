@@ -1,0 +1,27 @@
+name: "my-website"
+output_dir: docs
+# The website theme "cosmo" was chosen from
+# https://bootswatch.com/3/
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+    theme: cosmo
+    highlight: tango
+    df_print: paged
+    lib_dir: site_libs
+    self_contained: no
+    code_folding: hide
+# All fa icons were obtained from https://fontawesome.com/icons?d=gallery
+navbar:
+  title: "Smith College Communicating COVID-19"
+  left:
+    - text: "Background"
+      href: index.html
+    - text: "Data"
+      href: data.html
+    - text: "Methodology"
+      href: methods.html
+    - text: "Results"
+      href: analysis.html

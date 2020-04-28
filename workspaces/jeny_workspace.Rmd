@@ -7,9 +7,6 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
-```
-
-```{r}
 library(tidyverse)
 library(rvest)
 library(pdftools)
@@ -156,7 +153,7 @@ link <- unlist(links_actual, use.names=FALSE)
 # Combine data into a data frame with titles, contents, and links
 df_content <- as.data.frame(cbind(title, content, link))
 
-# df_content
+df_content
 
 ```
 
@@ -196,6 +193,8 @@ df_tidy <- df_tidy %>%
   group_by(ID) %>% 
   mutate(wordcount = row_number()) %>% 
   ungroup()
+
+View(df_tidy)
 ```
 
 ```{r}
