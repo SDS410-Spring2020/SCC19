@@ -177,5 +177,31 @@ The five most used anger words and the word "disease" were tracked over time. As
 
 
 ## Visualization 3
+```{r, message = FALSE, warning = FALSE}
+afinn_lex <- get_sentiments("afinn")
 
+lex_df <- inner_join(df_tidy, afinn_lex, by = "word") %>%
+  group_by(ID, index = wordplace %/% 10) %>%
+  mutate(avg_sent = mean(value))
+
+ggplot(sum_df, aes(x = date, y = avg_sent)) + 
+  geom_line() + 
+  theme_minimal() + 
+  labs(x = "Date", y = "Average Sentiment") +
+  geom_smooth(method = "lm")
+```
+AFINN's unique categorization system allows us to perform more purely quantitative analysis on the Smith College Letters to the Community. By assigning an actual number value to each word in the lexicon, we can calculate the average sentiment in each letter from the year 2017 to present day. In the plot above, we can observe that average sentiment is generally decreasing through time, partially due to an increased frequency in extreme sentiment dips at the end of 2019 and in early 2020. Obviously, this dip in 2020 can be primarily attributed to news surrounding the COVID-19 pandemic, but the origin of the dips in late 2019 is less clear. This graph is also useful in illustrating the frequency with which Letters to the Community were published; we can see that for a period in early 2019, letters were published much less frequently than in prior months, possibly due to the winter vacation from classes. There is a similar pattern in early 2018 and early 2020. 
+
+A note about mean calculations with the AFINN lexicon: though expansive, AFINN does not include every word in the English language, and through our analysis we have intentionally excluded "filler" words like "the" and "to". In order to calculate the mean sentiment per letter, we are using only the words present in the AFINN lexicon. This means that we are certainly underestimating the number of words per letter, potentially skewing the mean sentiment calculations for longer letters with fewer words present in the AFINN lexicon. The mean calculations should be taken as solely reflective of the letters within the context of this particular lexicon. 
+
+```{r, message = FALSE, warning = FALSE}
+letter_length <- lex_df %>%
+  group_by(ID, date) %>%
+  summarise(length = max(wordplace), avg_value = mean(value))
+
+ggplot(letter_length, aes(x = date, y = length)) + 
+  geom_line() + 
+  theme_light() + 
+  labs(x = "Date", y = "Length of Letter")
+```
 
