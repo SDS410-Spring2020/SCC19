@@ -28,9 +28,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -40,16 +40,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -58,9 +56,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  background-color: #f8f8f8; }
+  { background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -468,61 +466,687 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Results</h1>
-<h4 class="date">Last updated on 2020-04-27</h4>
+<h4 class="date">Last updated on 2020-04-28</h4>
 
 </div>
 
 
 <div id="results" class="section level2">
 <h2>Results</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#starter code :)</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#loading libraries</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(tidytext)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(stringr)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(wordcloud)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">library</span>(reshape2)</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">library</span>(lubridate)</span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#load the rda file</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;textdata.Rda&quot;</span>)</span>
-<span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#code to get started</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&quot;pasted this part from Emily :), original code by Jeny :)&quot;</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>df_tidy &lt;-<span class="st"> </span>df_full <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(word, content) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-19"><a href="#cb1-19"></a><span class="st">  </span><span class="kw">anti_join</span>(stop_words) </span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">#starter code :)</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#loading libraries</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(tidytext)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(stringr)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(wordcloud)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(reshape2)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">library</span>(lubridate)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">library</span>(textdata)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#load the rda file</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;textdata.Rda&quot;</span>)</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#code to get started</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&quot;pasted this part from Emily :), original code by Jeny :)&quot;</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">df_tidy &lt;-<span class="st"> </span>df_full <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="st">  </span><span class="kw">unnest_tokens</span>(word, content) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="st">  </span><span class="kw">anti_join</span>(stop_words) </a></code></pre></div>
 </div>
 <div id="negative-sentiment-of-2020-emails" class="section level2">
 <h2>Negative Sentiment of 2020 Emails</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#calls for bing sentiment lexicon </span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>bing_lex =<span class="st"> </span><span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#each year splits into groups of 50 words (we can vary this)</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#sentiment score is calculated</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>bing_score &lt;-<span class="st"> </span>df_tidy <span class="op">%&gt;%</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">year</span>(date)) <span class="op">%&gt;%</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">word_count =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>(),</span>
-<span id="cb2-10"><a href="#cb2-10"></a>         <span class="dt">index =</span> word_count <span class="op">%/%</span><span class="st"> </span><span class="dv">50</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="st">  </span><span class="kw">inner_join</span>(bing_lex, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="st">  </span><span class="kw">count</span>(year, <span class="dt">index =</span> index , sentiment) <span class="op">%&gt;%</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="st">  </span><span class="kw">spread</span>(sentiment, n, <span class="dt">fill =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sentiment =</span> positive <span class="op">-</span><span class="st"> </span>negative,</span>
-<span id="cb2-16"><a href="#cb2-16"></a>         <span class="dt">date =</span> <span class="kw">factor</span>(year)) <span class="op">%&gt;%</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(index, sentiment, <span class="dt">fill =</span> year)) <span class="op">+</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>date, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>) <span class="op">+</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;bing Sentiment through Smith College&#39;s Email Communications&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;Years: 2017-2020&quot;</span>)</span>
-<span id="cb2-21"><a href="#cb2-21"></a>bing_score</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#calls for bing sentiment lexicon </span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">bing_lex =<span class="st"> </span><span class="kw">get_sentiments</span>(<span class="st">&quot;bing&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#each year splits into groups of 50 words (we can vary this)</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#sentiment score is calculated</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">bing_score &lt;-<span class="st"> </span>df_tidy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">year</span>(date)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">word_count =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>(),</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">         <span class="dt">index =</span> word_count <span class="op">%/%</span><span class="st"> </span><span class="dv">50</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="st">  </span><span class="kw">inner_join</span>(bing_lex, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="st">  </span><span class="kw">count</span>(year, <span class="dt">index =</span> index , sentiment) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="st">  </span><span class="kw">spread</span>(sentiment, n, <span class="dt">fill =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sentiment =</span> positive <span class="op">-</span><span class="st"> </span>negative,</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">         <span class="dt">date =</span> <span class="kw">factor</span>(year)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(index, sentiment, <span class="dt">fill =</span> year)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>date, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">scales =</span> <span class="st">&quot;free_x&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;bing Sentiment through Smith College&#39;s Email Communications&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;Years: 2017-2020&quot;</span>)</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">bing_score</a></code></pre></div>
 <p><img src="analysis_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
 <p>We were interested to see how the sentiment score of the grouped content, consisting of <span class="math inline">\(50\)</span> words each, changes as time passes within the four years. For the most part, emails communicated in 2020 were positive overall, however, over time the emails begin to have content that the bing lexicon determines as negative. In our raw data, COVID-19 related emails began February 7th, 2020, and since then the sentiments of the emails have been negative. There have also been more words contained in the 2020 emails in comparison to the other three years. The only other year that has a similar negative sentiment as 2020 is 2018, and a significant number of 2018 emails dealt with campus climate and issues of inclusion and equity. Clearly, according to the bing lexicon, communication between the administration and the Smith community is more likely to be negative than in the other three years.</p>
 </div>
 <div id="visualization-2" class="section level2">
 <h2>Visualization 2</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Using the nrc lexicon</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># Citation: Saif M. Mohammad and Peter Turney. (2013), ``Crowdsourcing a Word-Emotion Association Lexicon.&#39;&#39; Computational Intelligence, 29(3): 436-465.</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">  </span><span class="kw">count</span>(sentiment) </a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">sentiment</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">anger</td>
+<td align="right">1247</td>
+</tr>
+<tr class="even">
+<td align="left">anticipation</td>
+<td align="right">839</td>
+</tr>
+<tr class="odd">
+<td align="left">disgust</td>
+<td align="right">1058</td>
+</tr>
+<tr class="even">
+<td align="left">fear</td>
+<td align="right">1476</td>
+</tr>
+<tr class="odd">
+<td align="left">joy</td>
+<td align="right">689</td>
+</tr>
+<tr class="even">
+<td align="left">negative</td>
+<td align="right">3324</td>
+</tr>
+<tr class="odd">
+<td align="left">positive</td>
+<td align="right">2312</td>
+</tr>
+<tr class="even">
+<td align="left">sadness</td>
+<td align="right">1191</td>
+</tr>
+<tr class="odd">
+<td align="left">surprise</td>
+<td align="right">534</td>
+</tr>
+<tr class="even">
+<td align="left">trust</td>
+<td align="right">1231</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">nrc &lt;-<span class="st"> </span><span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># Our data (w/ code from other workspaces)</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">df_long &lt;-<span class="st"> </span>df_full <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">  </span><span class="kw">unnest_tokens</span>(word, content)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">df_filterNRCwords &lt;-<span class="st"> </span>df_long <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="st">  </span><span class="kw">inner_join</span>(nrc) </a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co"># Comparing pre-COVID19 and post-COVID19</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">df_prePost &lt;-<span class="st"> </span>df_filterNRCwords <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">postCo =</span> <span class="kw">if_else</span>(date<span class="op">&gt;=</span><span class="st">&quot;2020-02-07&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)) </a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">df_prePost <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="st">  </span><span class="kw">group_by</span>(postCo,sentiment) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">N=</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="st">  </span><span class="kw">group_by</span>(sentiment) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="st">  </span><span class="kw">arrange</span>(postCo,<span class="op">-</span>N)</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="right">postCo</th>
+<th align="left">sentiment</th>
+<th align="right">N</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">positive</td>
+<td align="right">2626</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="left">trust</td>
+<td align="right">1894</td>
+</tr>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">anticipation</td>
+<td align="right">686</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="left">negative</td>
+<td align="right">478</td>
+</tr>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">joy</td>
+<td align="right">420</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="left">fear</td>
+<td align="right">307</td>
+</tr>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">anger</td>
+<td align="right">182</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="left">sadness</td>
+<td align="right">180</td>
+</tr>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">surprise</td>
+<td align="right">168</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="left">disgust</td>
+<td align="right">90</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">positive</td>
+<td align="right">516</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">trust</td>
+<td align="right">339</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">anticipation</td>
+<td align="right">168</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">negative</td>
+<td align="right">131</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">joy</td>
+<td align="right">119</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">fear</td>
+<td align="right">76</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">sadness</td>
+<td align="right">66</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">surprise</td>
+<td align="right">66</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">anger</td>
+<td align="right">36</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">disgust</td>
+<td align="right">19</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Using word cloud (thank you whitney) to compare positive words (the greatest number for both pre and post COVID)</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#word cloud of 50 most frequently used negative and positive words</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># PRE</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">df_prePost <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span><span class="kw">filter</span>(postCo<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="kw">count</span>(word, sentiment, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">acast</span>(word <span class="op">~</span><span class="st"> </span>sentiment, <span class="dt">value.var =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">fill =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="st">  </span><span class="kw">comparison.cloud</span>(<span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>),</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">                   <span class="dt">max.words =</span> <span class="dv">50</span>)</a></code></pre></div>
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" width="768" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># POST</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">df_prePost <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">filter</span>(postCo<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw">count</span>(word, sentiment, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw">acast</span>(word <span class="op">~</span><span class="st"> </span>sentiment, <span class="dt">value.var =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">fill =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">  </span><span class="kw">comparison.cloud</span>(<span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>),</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">                   <span class="dt">max.words =</span> <span class="dv">50</span>)</a></code></pre></div>
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-2.png" width="768" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">sentiment_by_time &lt;-<span class="st"> </span>df_long <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">    </span><span class="co">#mutate(date2 = floor_date(show_date, unit = &quot;6 months&quot;)) %&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(date) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">total_words =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">    </span><span class="kw">inner_join</span>(<span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>))</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw">library</span>(ggplot2) <span class="co"># for some reason this is required again.</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">sentiment_by_time <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="st">    </span><span class="kw">filter</span>(sentiment <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;positive&quot;</span>, <span class="st">&quot;negative&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="st">    </span><span class="kw">count</span>(date, sentiment, total_words) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">percent =</span> n <span class="op">/</span><span class="st"> </span>total_words) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(date, percent, <span class="dt">color =</span> sentiment)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">size =</span> <span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">lty =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="st">    </span><span class="kw">expand_limits</span>(<span class="dt">y =</span> <span class="dv">0</span>)</a></code></pre></div>
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-3.png" width="768" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">sentiment_by_time <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">    </span><span class="kw">filter</span>(sentiment <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;anger&quot;</span>, <span class="st">&quot;sadness&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">    </span><span class="kw">count</span>(date, sentiment, total_words) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">percent =</span> n <span class="op">/</span><span class="st"> </span>total_words) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(date, percent, <span class="dt">color =</span> sentiment)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">size =</span> <span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">lty =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="st">    </span><span class="kw">expand_limits</span>(<span class="dt">y =</span> <span class="dv">0</span>)</a></code></pre></div>
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-4.png" width="768" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">df_filterNRCwords <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(sentiment<span class="op">==</span><span class="st">&quot;anger&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(word) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">N=</span><span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="op">-</span>N)</a></code></pre></div>
+<div class="kable-table">
+<table>
+<thead>
+<tr class="header">
+<th align="left">word</th>
+<th align="right">N</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">challenge</td>
+<td align="right">25</td>
+</tr>
+<tr class="even">
+<td align="left">bias</td>
+<td align="right">20</td>
+</tr>
+<tr class="odd">
+<td align="left">violence</td>
+<td align="right">19</td>
+</tr>
+<tr class="even">
+<td align="left">advocacy</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">hate</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">court</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">gun</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">threat</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">disease</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">fear</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">hatred</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">painful</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">powerful</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">cross</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">death</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">discrimination</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">force</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">battle</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">burke</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">cash</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">condemn</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">disagree</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">hanging</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">hateful</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">homeless</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">intimidation</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">involvement</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">limited</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">preclude</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">prohibited</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">remove</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">row</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">shout</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">uncertain</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">violation</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">words</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">abhorrent</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">aftermath</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">angry</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">anxiety</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">arguments</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">assault</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">attorney</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">bad</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">barrier</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">confusion</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">criticism</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">cutting</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">damage</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">darkness</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">deadly</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">defense</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">delay</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">demand</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">deplorable</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">deserve</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">disappointed</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">disruption</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">egregious</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">fee</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">fierce</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">fighting</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">frustrated</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">harmful</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">hit</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">hurt</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">incite</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">injustice</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">intense</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">jeopardize</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">lie</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">lonely</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">lose</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">losing</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">nasty</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">opposed</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">politics</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">poverty</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">resistance</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">revoke</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">revolution</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">shooting</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">struggle</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">terrorism</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">tolerate</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">unequal</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">unlawful</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">unsettled</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">youth</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># HOW INDIVIDUAL WORDS HAVE BEEN USED OVER TIME</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">df_long <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">    </span><span class="co"># mutate(date2 = floor_date(show_date, unit = &quot;1 month&quot;)) %&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">    </span><span class="kw">filter</span>(word <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;challenge&quot;</span>, <span class="st">&quot;bias&quot;</span>, <span class="st">&quot;violence&quot;</span>,</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">                       <span class="st">&quot;advocacy&quot;</span>, <span class="st">&quot;hate&quot;</span>, <span class="st">&quot;disease&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="st">    </span><span class="kw">count</span>(date, word) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="st">    </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(date, n, <span class="dt">color =</span> word)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="st">    </span><span class="co"># Make facets by word</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span>word) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">size =</span> <span class="fl">1.5</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="st">    </span><span class="kw">expand_limits</span>(<span class="dt">y =</span> <span class="dv">0</span>)</a></code></pre></div>
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-5.png" width="768" /></p>
+<p>Ranking: NRC has ten sentiment categories. When listed from most to least observations there is not much of a difference between pre and post COVID. The only substantial sentiment that shifts is anger (from 7th in Pre-COVID-19 to 8th in Post-COVID-19).</p>
+<p>Word Cloud: Looking at the word cloud for before and after the start of COVID-19, and going back to the original letters, the shift is most likely to do with the previous hate issues that were on campus preceding COVID-19.</p>
+<p>Sentiment analysis over time graphs:</p>
+<ul>
+<li><p>Comparing Positive and Negative Sentiments: It is important to note a limitation of using sentiment analysis with the “Letters to the Community” - when addressing the public, negative words are intentionally minimized. Thus, the overall use of negative words is always less than the usage of positive words. Still, we notice a decrease in positive words over time, suggesting that while an increase in negative sentiment is not shown, the president verbalised the worsening situation.</p></li>
+<li><p>Comparing Anger and Sadness: The trends for anger and sadness over time are almost identical in shape, this suggests that the issues that the “Letters to the Community” addressed were issues that caused a sad emotional response (such as hate crime and COVID-19).</p></li>
+<li><p>Comparing Specific words: The five most used anger words and the word “disease” were tracked over time. As expected, “disease” was only used after COVID-19. “violence” seemed to have peaked in early 2018.</p></li>
+</ul>
 </div>
 <div id="visualization-3" class="section level2">
 <h2>Visualization 3</h2>
