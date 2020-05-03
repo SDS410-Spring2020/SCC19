@@ -26,3 +26,7 @@ Distinct from the binary categorization of Bing and the explicit sentiment label
 ### The bing Lexicon
 
 bing categorizes the sentiment into a binary either positive or negative. This method assist in analyzing the broad feeling of the content. The original use of bing was to evaluate social media entries such as reviews or blog posts. bing does not have a a numerical value, so we assign $+1$ to positive words and $-1$ to negative words. Not all words will be given a sentiment value with this lexicon. For purposes of this project, each year was split into groups of 50 words, and the number of positive and negative words in each group were counted. The difference between the number of negative words and the number of positive words in each group is found to get each group sentiment score. Lastly, the sentiment score the difference between the maximum sentiment score and the minimum sentiment score for each year letters to the community were sent was calculated.
+
+### The NRC lexicon
+
+nrc
