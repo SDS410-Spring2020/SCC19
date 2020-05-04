@@ -70,15 +70,11 @@ bing_score
 We were interested to see how the sentiment score of the grouped content, consisting of $50$ words each, changes as time passes within the four years. For the most part, emails communicated in 2020 were positive overall, however, over time the emails begin to have content that the bing lexicon determines as negative. In our raw data, COVID-19 related emails began February 7th, 2020, and since then the sentiments of the emails have been negative. There have also been more words contained in the 2020 emails in comparison to the other three years. The only other year that has a similar negative sentiment as 2020 is 2018, and a significant number of 2018 emails dealt with campus climate and issues of inclusion and equity. Clearly, according to the bing lexicon, communication between the administration and the Smith community is more likely to be negative than in the other three years.
 
 ## Visualization 2
-```{r}
+```{r NRCtable1}
 # Using the nrc lexicon
 # Citation: Saif M. Mohammad and Peter Turney. (2013), ``Crowdsourcing a Word-Emotion Association Lexicon.'' Computational Intelligence, 29(3): 436-465.
-
-#get_sentiments("nrc") %>% count(sentiment) 
-
 nrc <- get_sentiments("nrc")
-
-# Our data (w/ code from other workspaces)
+# Our data
 df_long <- df_full %>%
   unnest_tokens(word, content)
 
@@ -117,7 +113,9 @@ datatable(rankingTable)
 #   summarise(N=n()) %>% 
 #   group_by(sentiment) %>% 
 #   arrange(postCo,-N)
+```
 
+```{r NRCwordCloud}
 # Using word cloud (thank you whitney) to compare positive words (the greatest number for both pre and post COVID)
 #word cloud of 50 most frequently used negative and positive words
 
@@ -135,7 +133,9 @@ df_prePost %>%
   acast(word ~ sentiment, value.var = "n", fill = 0) %>%
   comparison.cloud(colors = c("red", "green"),
                    max.words = 50)
+```
 
+```{r NRCoverTime}
 sentiment_by_time <- df_long %>%
     #mutate(date2 = floor_date(show_date, unit = "6 months")) %>%
     group_by(date) %>%
