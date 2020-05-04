@@ -164,7 +164,9 @@ sentiment_by_time %>%
     geom_smooth(method = "lm", se = FALSE, lty = 2) +
     expand_limits(y = 0)
 
-df_filterNRCwords %>% filter(sentiment=="anger") %>% group_by(word) %>% summarize(N=n()) %>% arrange(-N)
+angerWords <- df_filterNRCwords %>% filter(sentiment=="anger") %>% group_by(word) %>% summarize(N=n()) %>% arrange(-N) 
+names(angerWords) <- c("Anger Words", "Frequency")
+datatable(angerWords)
 
 # HOW INDIVIDUAL WORDS HAVE BEEN USED OVER TIME
 df_long %>% 
