@@ -210,9 +210,6 @@ df_tidy <- df_tidy %>%
   ungroup()
 
 lex_df <- inner_join(df_tidy, afinn_lex, by = "word") %>%
-  group_by(ID, index = wordplace %/% 5)
-
-sum_df <- lex_df %>%
   group_by(date, ID) %>%
   summarise(sentiment = sum(value), avg_sent = mean(value))
 
