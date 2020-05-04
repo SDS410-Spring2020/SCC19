@@ -204,9 +204,17 @@ The five most used anger words and the word "disease" were tracked over time. As
 ```{r, message = FALSE, warning = FALSE}
 afinn_lex <- get_sentiments("afinn")
 
+df_tidy <- df_tidy %>%
+  group_by(ID) %>% 
+  mutate(wordplace = row_number()) %>% 
+  ungroup()
+
 lex_df <- inner_join(df_tidy, afinn_lex, by = "word") %>%
-  group_by(ID, index = wordplace %/% 10) %>%
-  mutate(avg_sent = mean(value))
+  group_by(ID, index = wordplace %/% 5)
+
+sum_df <- lex_df %>%
+  group_by(date, ID) %>%
+  summarise(sentiment = sum(value), avg_sent = mean(value))
 
 ggplot(sum_df, aes(x = date, y = avg_sent)) + 
   geom_line() + 
