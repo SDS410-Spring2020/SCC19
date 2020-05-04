@@ -29,4 +29,8 @@ bing categorizes the sentiment into a binary either positive or negative. This m
 
 ### The NRC lexicon
 
-nrc
+The NRC Emotion Lexicon - also called EmoLex as it is a Word-Emotion Association Lexicon - associates words to eight basic emotions (anger, fear, anticipation, trust, surprise, sadness, joy, and disgust) and two sentiments (negative and positive). The lexicon is based on 13,901 words.
+
+Lexicon Citation: Saif M. Mohammad and Peter Turney. (2013), ``Crowdsourcing a Word-Emotion Association Lexicon.'' Computational Intelligence, 29(3): 436-465.
+
+
