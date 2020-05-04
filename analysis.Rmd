@@ -74,8 +74,7 @@ We were interested to see how the sentiment score of the grouped content, consis
 # Using the nrc lexicon
 # Citation: Saif M. Mohammad and Peter Turney. (2013), ``Crowdsourcing a Word-Emotion Association Lexicon.'' Computational Intelligence, 29(3): 436-465.
 
-get_sentiments("nrc") %>%
-  count(sentiment) 
+#get_sentiments("nrc") %>% count(sentiment) 
 
 nrc <- get_sentiments("nrc")
 
@@ -90,11 +89,34 @@ df_filterNRCwords <- df_long %>%
 df_prePost <- df_filterNRCwords %>% 
   mutate(postCo = if_else(date>="2020-02-07", 1, 0)) 
 
-df_prePost %>% 
-  group_by(postCo,sentiment) %>% 
+# Creating Table
+# Combing columns side-by-side
+first <- data.frame(Ranking=1:10)
+second <- df_prePost %>% 
+  filter(postCo==0) %>% 
+  group_by(sentiment) %>% 
   summarise(N=n()) %>% 
   group_by(sentiment) %>% 
-  arrange(postCo,-N)
+  arrange(-N) %>% 
+  select(1)
+names(second) <- "Pre COVID-19"
+third <- df_prePost %>% 
+  filter(postCo==1) %>% 
+  group_by(sentiment) %>% 
+  summarise(N=n()) %>% 
+  group_by(sentiment) %>% 
+  arrange(-N) %>% 
+  select(1)
+names(third) <- "Post COVID-19"
+library(DT)
+rankingTable <- do.call("cbind", c(first,second,third))
+datatable(rankingTable)
+
+# df_prePost %>% 
+#   group_by(postCo,sentiment) %>% 
+#   summarise(N=n()) %>% 
+#   group_by(sentiment) %>% 
+#   arrange(postCo,-N)
 
 # Using word cloud (thank you whitney) to compare positive words (the greatest number for both pre and post COVID)
 #word cloud of 50 most frequently used negative and positive words
