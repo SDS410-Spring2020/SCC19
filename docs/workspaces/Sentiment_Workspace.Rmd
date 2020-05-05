@@ -9,6 +9,9 @@ output: html_document
 library(dplyr)
 library(tidytext)
 library(textdata)
+library(wordcloud)
+library(reshape2)
+library(lubridate)
 ```
 
 
@@ -51,8 +54,10 @@ nrc <- get_sentiments("nrc")
 # Our data (w/ code from other workspaces)
 load("textdata.Rda")
 
-df_filterNRCwords <- df_full %>% 
-  unnest_tokens(word, content)%>%
+df_long <- df_full %>%
+  unnest_tokens(word, content)
+
+df_filterNRCwords <- df_long %>% 
   inner_join(nrc) 
 
 # Comparing pre-COVID19 and post-COVID19
@@ -66,11 +71,9 @@ df_prePost %>%
   arrange(postCo,-N)
 ```
 
-```{r}
+```{r wordcloud}
 # Using word cloud (thank you whitney) to compare positive words (the greatest number for both pre and post COVID)
 #word cloud of 50 most frequently used negative and positive words
-library(wordcloud)
-library(reshape2)
 
 # PRE
 df_prePost %>% 
@@ -86,6 +89,52 @@ df_prePost %>%
   acast(word ~ sentiment, value.var = "n", fill = 0) %>%
   comparison.cloud(colors = c("red", "green"),
                    max.words = 50)
+```
+
+
+```{r}
+sentiment_by_time <- df_long %>%
+    #mutate(date2 = floor_date(show_date, unit = "6 months")) %>%
+    group_by(date) %>%
+    mutate(total_words = n()) %>%
+    ungroup() %>%
+    inner_join(get_sentiments("nrc"))
+
+library(ggplot2) # for some reason this is required again.
+sentiment_by_time %>%
+    filter(sentiment %in% c("positive", "negative")) %>%
+    count(date, sentiment, total_words) %>%
+    ungroup() %>%
+    mutate(percent = n / total_words) %>%
+    ggplot(aes(date, percent, color = sentiment)) +
+    geom_line(size = 1.5) +
+    geom_smooth(method = "lm", se = FALSE, lty = 2) +
+    expand_limits(y = 0)
+
+sentiment_by_time %>%
+    filter(sentiment %in% c("anger", "sadness")) %>%
+    count(date, sentiment, total_words) %>%
+    ungroup() %>%
+    mutate(percent = n / total_words) %>%
+    ggplot(aes(date, percent, color = sentiment)) +
+    geom_line(size = 1.5) +
+    geom_smooth(method = "lm", se = FALSE, lty = 2) +
+    expand_limits(y = 0)
+
+df_filterNRCwords %>% filter(sentiment=="anger") %>% group_by(word) %>% summarize(N=n()) %>% arrange(-N)
+
+# HOW INDIVIDUAL WORDS HAVE BEEN USED OVER TIME
+df_long %>% 
+    # mutate(date2 = floor_date(show_date, unit = "1 month")) %>%
+    filter(word %in% c("challenge", "bias", "violence",
+                       "advocacy", "hate", "disease")) %>%
+    count(date, word) %>%
+    ungroup() %>%
+    ggplot(aes(date, n, color = word)) +
+    # Make facets by word
+    facet_wrap(~word) +
+    geom_line(size = 1.5, show.legend = FALSE) +
+    expand_limits(y = 0)
 ```
 
 

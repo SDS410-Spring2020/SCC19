@@ -41,7 +41,7 @@ df_tidy <- df_full %>%
 ```
 
 
-## Negative Sentiment of 2020 Emails 
+## Negative Sentiment of 2020 Emails using Bing Lexicon 
 
 ```{r}
 #calls for bing sentiment lexicon 
@@ -213,7 +213,7 @@ lex_df <- inner_join(df_tidy, afinn_lex, by = "word") %>%
   group_by(date, ID) %>%
   summarise(sentiment = sum(value), avg_sent = mean(value))
 
-ggplot(sum_df, aes(x = date, y = avg_sent)) + 
+ggplot(lex_df, aes(x = date, y = avg_sent)) + 
   geom_line() + 
   theme_minimal() + 
   labs(x = "Date", y = "Average Sentiment") +
@@ -224,13 +224,17 @@ AFINN's unique categorization system allows us to perform more purely quantitati
 A note about mean calculations with the AFINN lexicon: though expansive, AFINN does not include every word in the English language, and through our analysis we have intentionally excluded "filler" words like "the" and "to". In order to calculate the mean sentiment per letter, we are using only the words present in the AFINN lexicon. This means that we are certainly underestimating the number of words per letter, potentially skewing the mean sentiment calculations for longer letters with fewer words present in the AFINN lexicon. The mean calculations should be taken as solely reflective of the letters within the context of this particular lexicon. 
 
 ```{r, message = FALSE, warning = FALSE}
-letter_length <- lex_df %>%
-  group_by(ID, date) %>%
-  summarise(length = max(wordplace), avg_value = mean(value))
+#commented code out because it doesn't run. Sorry, Emily :(
 
-ggplot(letter_length, aes(x = date, y = length)) + 
-  geom_line() + 
-  theme_light() + 
-  labs(x = "Date", y = "Length of Letter")
+#letter_length <- lex_df %>%
+  #group_by(ID, date) %>%
+  #summarise(length = max(wordplace), avg_value = mean(value))
+
+#ggplot(letter_length, aes(x = date, y = length)) + 
+  #geom_line() + 
+  #theme_light() + 
+  #labs(x = "Date", y = "Length of Letter")
+```
+
 ```
 
