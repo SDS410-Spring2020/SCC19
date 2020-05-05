@@ -23,11 +23,11 @@ After the process of data aquisition was completed, we were set up to begin perf
 
 Distinct from the binary categorization of Bing and the explicit sentiment labeling of NRC, AFINN makes use of a range of scores (from -5 to 5) to classify words based on their perceived meaning and implicit emotional message. Positive scores indicate more positive sentiments in this lexicon, and the ordinal numeric quality of these classifications allow for some unique forms of analysis (i.e. mean sentiment for a chunk of text). AFINN contains sentiment labels for over 3,300 words, and is offered in four languages (including emoticon).
 
-### The bing Lexicon
+### The Bing Lexicon
 
 bing categorizes the sentiment into a binary either positive or negative. This method assist in analyzing the broad feeling of the content. The original use of bing was to evaluate social media entries such as reviews or blog posts. bing does not have a a numerical value, so we assign $+1$ to positive words and $-1$ to negative words. Not all words will be given a sentiment value with this lexicon. For purposes of this project, each year was split into groups of 50 words, and the number of positive and negative words in each group were counted. The difference between the number of negative words and the number of positive words in each group is found to get each group sentiment score. Lastly, the sentiment score the difference between the maximum sentiment score and the minimum sentiment score for each year letters to the community were sent was calculated.
 
-### The NRC lexicon
+### The NRC Lexicon
 
 The NRC Emotion Lexicon - also called EmoLex as it is a Word-Emotion Association Lexicon - associates words to eight basic emotions (anger, fear, anticipation, trust, surprise, sadness, joy, and disgust) and two sentiments (negative and positive). The lexicon is based on 13,901 words.
 
