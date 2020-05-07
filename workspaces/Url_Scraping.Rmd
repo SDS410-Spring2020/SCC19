@@ -80,21 +80,10 @@ title <- lapply(links_actual,
               function(links_actual) {
                 links_actual %>% read_html() %>%
                 html_node(".page-title") %>%
-                html_text()
+                html_text() %>% 
+                sub(pattern = "\n", replacement = "")
               }
-)
-
-# Not really matching well.. 
-# Scrape academic year each letter was posted
-# year <- lapply(links_actual,
-#               function(links_actual) {
-#                 links_actual %>% read_html() %>%
-#                 html_node(".breadcrumbcurrent") %>% 
-#                 html_node("a") %>% 
-#                 html_text()
-# 
-#               }
-# )
+) 
 
 # Scrape content of each letter
 content <- lapply(links_actual,
@@ -102,59 +91,78 @@ content <- lapply(links_actual,
                 links_actual %>% read_html() %>%
                 html_node(".left-column-text") %>%
                 html_node(".field-item.even") %>%
-                html_text()
+                html_text() %>% 
+                sub(pattern = "\n", replacement = "")
               }
 )
 
+# Get titles of each letter from the main webpage
+titles_dates <- url %>%
+  html_nodes(".field-item") %>%
+  html_nodes("li") %>%
+  html_nodes("a") %>%
+  html_text()
 
+# Unlist vector of 
+title_dates <- unlist(titles_dates)
 
+# Date format to search for
+date_format <- "[A-Z]{1}[a-z]{1,10} [0-9]{1,2}, [0-9]{4}"
 
-```
-
-```{r}
-# get date of publication from titles
-# this works for everything not from the last ~2 months
-dateformat <- "[A-Z]{1}[a-z]{1,10} [0-9]{1,2}, [0-9]{4}"
-older_dates <- lapply(links_actual,
-               function(links_actual) {
-                str_extract(string = (links_actual %>%
-                                        read_html() %>%
-                                        html_nodes(".field-item.even") %>%
-                                        html_text())[1],
-                            pattern = dateformat)
-               }
+# Extract date using above format from titles
+date <- lapply(title_dates,
+                function(title_dates) {
+                 str_extract(string = title_dates,
+                             pattern = date_format)
+                }
 )
 
-# this works for the most recent links
-datepattern <- "[a-z]{1,10}-[0-9]{1,2}-[0-9]{4}"
-new_dates <- lapply(links_actual,
-                    function(links_actual) {
-                      datelocate <- regexpr(datepattern, links_actual)[1]
-                      return(substr(links_actual, datelocate, nchar(links_actual)))
-                    }
-)
+# Unlist dates vector
+date <- unlist(date, use.names=FALSE)
 
-# note: links_actual[11] has no date associated with it in either of these formats. I think it was published on Feb.27 2020. We may have to hard code this in. 
+# Unlink links 
+# links_url from line 41
+link <- unlist(links_url, use.names=FALSE)
 
+# Create data frame with extracted dates and links
+df_dates <- as.data.frame(cbind(date, link))
 ```
+
 
 
 ```{r}
 # Unlist extracted text from each category
-title <- unlist(title, use.names=FALSE)
-
-#year <- unlist(year, use.names=FALSE)
+title <- unlist(title, use.names=FALSE) 
 
 content <- unlist(content, use.names=FALSE)
 
 link <- unlist(links_actual, use.names=FALSE)
 
-# Combine data into a data frame
-df <- as.data.frame(cbind(title, content, link))
+# Combine data into a data frame with titles, contents, and links
+df_content <- as.data.frame(cbind(title, content, link))
 
-#View(df)
+# Join data data frame with dates with data frame with content
+df_full <- inner_join(df_content, df_dates,  by = "link")
+
+# Change data types
+df_full$link <- 
+                 as.character(as.factor(df_full$link))
+
+df_full$title <-
+                as.character(as.factor(df_full$title))
+
+df_full$content <-
+                as.character(as.factor(df_full$content))
+
+df_full$date <-
+                as.Date(as.factor(df_full$date), format ="%B %d, %Y")
+
+df_full <- tibble::rowid_to_column(df_full, "ID")
+
+write.csv(df_full, "df_full.csv")
 
 ```
+
 
 ```{r}
 # Trasnform to tidy text data and remove words such as "of, the, to, in"
@@ -169,6 +177,6 @@ df_tidy <- df_tidy %>%
   mutate(wordcount = row_number()) %>% 
   ungroup()
 
-#View(df_tidy)
+write.csv(df_tidy, "df_tid.csv" )
 ```
 

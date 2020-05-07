@@ -59,10 +59,9 @@ In order to access the letters and their content, we employ a series of webscrap
 Collecting the letter data begins with cataloguing all available links on the landing page for the community letters. Because this page includes links to other pages and documents which are not published letters, we rely on the consistent URL format used to distinguish letters from other, non-letter, links. In cleaning all of the links scraped from the landing page, we employ our knowledge of this consistent format in order to seperate, reconstruct, and organize the URLs for letters we wish to include in our final dataset. After collecting these URLs, we aggregate them into a list. We then filter the list to include only those URLs linking to letters published within the last three academic years; this filtration is possible because text corresponding to the academic year is included in each URL. After filtering, we use the httr function GET() to check that all of our URLs of interest lead to webpages that actually exist on the web. We access individual letters’ content with a function designed to iterate over each element in this list of existing URLs and scrape the contents of the associated webpage. Scraping content, as well as each letter’s title, requires the use of rvest functions for identifying particular html nodes within an html document. Once these nodes are identified, and the html formatting is cleaned out of the text with the use of text replacement function sub(), one is able to effectively catalogue all of the applicable content into a list. This list, once unlisted, forms the basis for the `content` column in a dataset in which titles, content, and dates of publication for each letter are clearly delineated and associated with one another. Once the contents of each webpage are scraped and cleaned, we can summarise each letter in one row of a dataframe, with a single column containing all of the letter's text. Additionally, we are able to use regular expressions to search for and associate each letter’s date of publication with its row in the dataframe. These dates of publication are indicated in the titles for each letter as they are shown on the Letters to the Community landing page.
 
 ```{r}
-df_full <- read_csv("df_full.csv")
 df_tidy <- read_csv("df_tidy.csv")
 
-pander(head(df_tidy, n =10))
+kable(head(df_tidy, n =10))
 ```
 
 
@@ -176,7 +175,7 @@ pander(rankingTable)
 #   arrange(postCo,-N)
 ```
 
-```{r, fig.height=4.4}
+```{r}
 # Using word cloud (thank you whitney) to compare positive words (the greatest number for both pre and post COVID)
 #word cloud of 50 most frequently used negative and positive words
 
@@ -190,7 +189,7 @@ df_prePost %>%
 ```
 
 
-```{r, fig.height=4.4}
+```{r}
 # POST
 df_prePost %>% 
   filter(postCo==1) %>% 
@@ -204,7 +203,7 @@ df_prePost %>%
 Finally, sentiment analysis based on NRC is analyzed over time. It is important to note a limitation of using sentiment analysis with the "Letters to the Community" - when addressing the public, negative words are intentionally minimized. Thus, the overall use of negative words is always less than the usage of positive words. Still, we notice a decrease in positive words over time, suggesting that while an increase in negative sentiment is not shown, the president verbalised the worsening situation.
 Using similar methods, when comparing anger and sadness, the trends for anger and sadness over time are almost identical in shape, this suggests that the issues that the "Letters to the Community" addressed were issues that caused a sad emotional response (such as hate crime and COVID-19). To look at specific words, the five most used anger words and the word "disease" are tracked over time. As expected, "disease" is only used after COVID-19. "violence" seemed to have peaked in early 2018.
 
-```{r, fig.height=3.5}
+```{r}
 sentiment_by_time <- df_long %>%
     #mutate(date2 = floor_date(show_date, unit = "6 months")) %>%
     group_by(date) %>%
@@ -233,12 +232,9 @@ sentiment_by_time %>%
     geom_smooth(method = "lm", se = FALSE, lty = 2) +
     expand_limits(y = 0)
 
-```
-
-```{r}
 angerWords <- df_filterNRCwords %>% filter(sentiment=="anger") %>% group_by(word) %>% summarize(N=n()) %>% arrange(-N) 
 names(angerWords) <- c("Anger Words", "Frequency")
-kable(head(angerWords, n = 15))
+kable(angerWords)
 
 # HOW INDIVIDUAL WORDS HAVE BEEN USED OVER TIME
 df_long %>% 
@@ -255,7 +251,9 @@ df_long %>%
 ```
 
 
-[AFINN]
+AFINN’s unique categorization system allows us to perform more purely quantitative analysis on the Smith College Letters to the Community. By assigning an actual number value to each word in the lexicon, we can calculate the average sentiment in each letter from the year 2017 to present day. In the plot above, we can observe that average sentiment is generally decreasing through time, partially due to an increased frequency in extreme sentiment dips at the end of 2019 and in early 2020. Obviously, this dip in 2020 can be primarily attributed to news surrounding the COVID-19 pandemic, but the origin of the dips in late 2019 is less clear. This graph is also useful in illustrating the frequency with which Letters to the Community were published; we can see that for a period in early 2019, letters were published much less frequently than in prior months, possibly due to the winter vacation from classes. There is a similar pattern in early 2018 and early 2020.
+
+A note about mean calculations with the AFINN lexicon: though expansive, AFINN does not include every word in the English language, and through our analysis we have intentionally excluded “filler” words like “the” and “to”. In order to calculate the mean sentiment per letter, we are using only the words present in the AFINN lexicon. This means that we are certainly underestimating the number of words per letter, potentially skewing the mean sentiment calculations for longer letters with fewer words present in the AFINN lexicon. The mean calculations should be taken as solely reflective of the letters within the context of this particular lexicon.
 
 ## Discussion
 
@@ -275,7 +273,7 @@ Lastly, this analysis follows the communication around COVID-19, which can be a 
 Earlier, while we were conducting sentiment analysis using Bing, we encountered inconvenient situations such as the words “fall” and “vice” being categorized as negative by the lexicon. In reality, with more context in form of adding a neighboring word to the right, “fall” ceases to be negative as “fall semester” and “vice” ceases to look less malicious as “vice president”. Further additional text analysis is done on what could be inferred with the introduction of bigrams, that is pairing of words. Once we are able to tokenize the emails’ content into pairs of words, we then seek to find the most commonly written bigrams from President McCartney by year. The criteria for the results is given how often a bigram appears in relation to other community letters by year. This can be calculated as the number of times a bigram appears in an email divided by the total number of bigrams in the email. For purposes of this paper, we are concerned with the output for the year 2020. The three most frequently written bigrams are “gratitude practice”,  “travel ban”, and “covid-19”. Clearly, communication of the pandemic as well as “travel ban” dominate the emails sent to the Smith community.
 
 
-```{r, fig.height= 5.75}
+```{r}
 #looking into pair of words (bigrams)
 
 #separates text into pairs, eliminates stop words

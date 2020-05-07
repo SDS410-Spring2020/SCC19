@@ -157,6 +157,8 @@ df_full$date <-
 
 df_full <- tibble::rowid_to_column(df_full, "ID")
 
+View(df_full)
+
 ```
 
 

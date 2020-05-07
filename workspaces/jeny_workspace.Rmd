@@ -107,6 +107,8 @@ content <- lapply(links_actual,
 
 ```{r}
 # Get titles of each letter from the main webpage
+url <- read_html("https://www.smith.edu/president-kathleen-mccartney/letters-community")
+
 titles_dates <- url %>%
   html_nodes(".field-item") %>%
   html_nodes("li") %>%
@@ -116,6 +118,9 @@ titles_dates <- url %>%
 # Unlist vector of 
 title_dates <- unlist(titles_dates)
 
+```
+
+```{r}
 # Date format to search for
 date_format <- "[A-Z]{1}[a-z]{1,10} [0-9]{1,2}, [0-9]{4}"
 
@@ -137,7 +142,6 @@ link <- unlist(links_url, use.names=FALSE)
 # Create data frame with extracted dates and links
 df_dates <- as.data.frame(cbind(date, link))
 
-# df_dates
 ```
 
 
@@ -178,7 +182,9 @@ df_full$date <-
 df_full <- tibble::rowid_to_column(df_full, "ID")
 
 
-# df_full
+df_full <- df_full[match(unique(df_full$title), df_full$title),]
+
+write_excel_csv(df_full, "df_full.csv")
 ```
 
 ```{r}
