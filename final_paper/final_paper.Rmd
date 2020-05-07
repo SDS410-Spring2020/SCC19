@@ -1,8 +1,10 @@
 ---
 title: "Smith College Communicating COVID-19 (SCC19)"
+author: "Emily Daubenspeck, Yejin Hwang, Jeny Kwon, Whitney Mutalemwa"
 date: "Spring 2020 (May 8th)"
-author: Emily Daubenspeck, Yejin Hwang, Jeny Kwon, Whitney Mutalemwa
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 always_allow_html: yes
 ---
 
@@ -255,6 +257,8 @@ df_long %>%
 
 
 To conclude our formal lexicon-based analysis, we turn to AFINN. AFINN’s unique categorization system allows us to perform more purely quantitative analysis on the Smith College “Letters to the Community”. By assigning an actual number value to each word in the lexicon, we can calculate the average sentiment in each letter from the year 2017 to present day. In the plot above, we can observe that average sentiment is generally decreasing through time, partially due to an increased frequency in extreme sentiment dips at the end of 2019 and in early 2020. This dip in 2020 may be primarily attributed to news surrounding the COVID-19 pandemic, but the origin of the dips in late 2019 is less clear. This graph is also useful in illustrating the frequency with which “Letters to the Community” were published; we can see that for a period in early 2019, letters were published much less frequently than in prior months, possibly due to the winter vacation from classes. There is a similar pattern in early 2018 and early 2020.
+
+
 
 ```{r, fig.width=9.25}
 afinn_lex <- get_sentiments("afinn")
