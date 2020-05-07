@@ -41,7 +41,7 @@ df_tidy <- df_full %>%
 ```
 
 
-## Negative Sentiment of 2020 Emails using Bing Lexicon 
+## Bing Lexicon 
 
 ```{r}
 #calls for bing sentiment lexicon 
@@ -69,7 +69,7 @@ bing_score
 
 We were interested to see how the sentiment score of the grouped content, consisting of $50$ words each, changes as time passes within the four years. For the most part, emails communicated in 2020 were positive overall, however, over time the emails begin to have content that the bing lexicon determines as negative. In our raw data, COVID-19 related emails began February 7th, 2020, and since then the sentiments of the emails have been negative. There have also been more words contained in the 2020 emails in comparison to the other three years. The only other year that has a similar negative sentiment as 2020 is 2018, and a significant number of 2018 emails dealt with campus climate and issues of inclusion and equity. Clearly, according to the bing lexicon, communication between the administration and the Smith community is more likely to be negative than in the other three years.
 
-## Visualization 2
+## NRC Lexicon
 ```{r NRCtable1}
 # Using the nrc lexicon
 # Citation: Saif M. Mohammad and Peter Turney. (2013), ``Crowdsourcing a Word-Emotion Association Lexicon.'' Computational Intelligence, 29(3): 436-465.
@@ -200,7 +200,7 @@ The trends for anger and sadness over time are almost identical in shape, this s
 The five most used anger words and the word "disease" were tracked over time. As expected, "disease" was only used after COVID-19. "violence" seemed to have peaked in early 2018. 
 
 
-## Visualization 3
+## Afinn Lexicon
 ```{r, message = FALSE, warning = FALSE}
 afinn_lex <- get_sentiments("afinn")
 
