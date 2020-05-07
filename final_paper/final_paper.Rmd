@@ -3,6 +3,7 @@ title: "Smith College Communicating COVID-19 (SCC19)"
 date: "Spring 2020 (May 8th)"
 author: Emily Daubenspeck, Yejin Hwang, Jeny Kwon, Whitney Mutalemwa
 output: pdf_document
+always_allow_html: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -263,13 +264,123 @@ bing_score
 
 Based on the analysis using the NRC lexicon and its ten sentiment categories, the only substantial sentiment that shifts is anger (from 7th in Pre-COVID-19 to 8th in Post-COVID-19) when ranked from most observations at 1st and least observations as 10th. Continuing the analysis using the NRC lexicon, a word cloud comparing before and after the start of COVID-19, and going back to the original letters, the shift is most likely to do with the previous hate issues that were on campus preceding COVID-19.
 
-[Sentiment Table] 
-[Word Cloud]
+[table does not appear :(]
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Using the nrc lexicon
+# Citation: Saif M. Mohammad and Peter Turney. (2013), ``Crowdsourcing a Word-Emotion Association Lexicon.'' Computational Intelligence, 29(3): 436-465.
+nrc <- get_sentiments("nrc")
+# Our data
+df_long <- df_full %>%
+  unnest_tokens(word, content)
+
+df_filterNRCwords <- df_long %>% 
+  inner_join(nrc) 
+
+# Comparing pre-COVID19 and post-COVID19
+df_prePost <- df_filterNRCwords %>% 
+  mutate(postCo = if_else(date>="2020-02-07", 1, 0)) 
+
+# Creating Table
+# Combing columns side-by-side
+first <- data.frame(Ranking=1:10)
+second <- df_prePost %>% 
+  filter(postCo==0) %>% 
+  group_by(sentiment) %>% 
+  summarise(N=n()) %>% 
+  group_by(sentiment) %>% 
+  arrange(-N) %>% 
+  select(1)
+names(second) <- "Pre COVID-19"
+third <- df_prePost %>% 
+  filter(postCo==1) %>% 
+  group_by(sentiment) %>% 
+  summarise(N=n()) %>% 
+  group_by(sentiment) %>% 
+  arrange(-N) %>% 
+  select(1)
+names(third) <- "Post COVID-19"
+library(DT)
+rankingTable <- do.call("cbind", c(first,second,third))
+datatable(rankingTable)
+
+# df_prePost %>% 
+#   group_by(postCo,sentiment) %>% 
+#   summarise(N=n()) %>% 
+#   group_by(sentiment) %>% 
+#   arrange(postCo,-N)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Using word cloud (thank you whitney) to compare positive words (the greatest number for both pre and post COVID)
+#word cloud of 50 most frequently used negative and positive words
+
+# PRE
+df_prePost %>% 
+  filter(postCo==0) %>% 
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("red", "green"),
+                   max.words = 50)
+# POST
+df_prePost %>% 
+  filter(postCo==1) %>% 
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("red", "green"),
+                   max.words = 50)
+```
+ 
 
 Finally, sentiment analysis based on NRC is analyzed over time. It is important to note a limitation of using sentiment analysis with the "Letters to the Community" - when addressing the public, negative words are intentionally minimized. Thus, the overall use of negative words is always less than the usage of positive words. Still, we notice a decrease in positive words over time, suggesting that while an increase in negative sentiment is not shown, the president verbalised the worsening situation.
 Using similar methods, when comparing anger and sadness, the trends for anger and sadness over time are almost identical in shape, this suggests that the issues that the "Letters to the Community" addressed were issues that caused a sad emotional response (such as hate crime and COVID-19). To look at specific words, the five most used anger words and the word "disease" are tracked over time. As expected, "disease" is only used after COVID-19. "violence" seemed to have peaked in early 2018.
 
-[Sentiment Graph]
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+sentiment_by_time <- df_long %>%
+    #mutate(date2 = floor_date(show_date, unit = "6 months")) %>%
+    group_by(date) %>%
+    mutate(total_words = n()) %>%
+    ungroup() %>%
+    inner_join(get_sentiments("nrc"))
+
+library(ggplot2) # for some reason this is required again.
+sentiment_by_time %>%
+    filter(sentiment %in% c("positive", "negative")) %>%
+    count(date, sentiment, total_words) %>%
+    ungroup() %>%
+    mutate(percent = n / total_words) %>%
+    ggplot(aes(date, percent, color = sentiment)) +
+    geom_line(size = 1.5) +
+    geom_smooth(method = "lm", se = FALSE, lty = 2) +
+    expand_limits(y = 0)
+
+sentiment_by_time %>%
+    filter(sentiment %in% c("anger", "sadness")) %>%
+    count(date, sentiment, total_words) %>%
+    ungroup() %>%
+    mutate(percent = n / total_words) %>%
+    ggplot(aes(date, percent, color = sentiment)) +
+    geom_line(size = 1.5) +
+    geom_smooth(method = "lm", se = FALSE, lty = 2) +
+    expand_limits(y = 0)
+
+angerWords <- df_filterNRCwords %>% filter(sentiment=="anger") %>% group_by(word) %>% summarize(N=n()) %>% arrange(-N) 
+names(angerWords) <- c("Anger Words", "Frequency")
+datatable(angerWords)
+
+# HOW INDIVIDUAL WORDS HAVE BEEN USED OVER TIME
+df_long %>% 
+    # mutate(date2 = floor_date(show_date, unit = "1 month")) %>%
+    filter(word %in% c("challenge", "bias", "violence",
+                       "advocacy", "hate", "disease")) %>%
+    count(date, word) %>%
+    ungroup() %>%
+    ggplot(aes(date, n, color = word)) +
+    # Make facets by word
+    facet_wrap(~word) +
+    geom_line(size = 1.5, show.legend = FALSE) +
+    expand_limits(y = 0)
+```
 
 
 [Need AFINN Results]
