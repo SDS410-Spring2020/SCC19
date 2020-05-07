@@ -58,6 +58,8 @@ In order to access the letters and their content, we employ a series of webscrap
 
 Collecting the letter data begins with cataloguing all available links on the landing page for the community letters. Because this page includes links to other pages and documents which are not published letters, we rely on the consistent URL format used to distinguish letters from other, non-letter, links. In cleaning all of the links scraped from the landing page, we employ our knowledge of this consistent format in order to seperate, reconstruct, and organize the URLs for letters we wish to include in our final dataset. After collecting these URLs, we aggregate them into a list. We then filter the list to include only those URLs linking to letters published within the last three academic years; this filtration is possible because text corresponding to the academic year is included in each URL. After filtering, we use the httr function GET() to check that all of our URLs of interest lead to webpages that actually exist on the web. We access individual letters’ content with a function designed to iterate over each element in this list of existing URLs and scrape the contents of the associated webpage. Scraping content, as well as each letter’s title, requires the use of rvest functions for identifying particular html nodes within an html document. Once these nodes are identified, and the html formatting is cleaned out of the text with the use of text replacement function sub(), one is able to effectively catalogue all of the applicable content into a list. This list, once unlisted, forms the basis for the `content` column in a dataset in which titles, content, and dates of publication for each letter are clearly delineated and associated with one another. Once the contents of each webpage are scraped and cleaned, we can summarise each letter in one row of a dataframe, with a single column containing all of the letter's text. Additionally, we are able to use regular expressions to search for and associate each letter’s date of publication with its row in the dataframe. These dates of publication are indicated in the titles for each letter as they are shown on the Letters to the Community landing page.
 
+\pagebreak
+
 ```{r}
 df_full <- read_csv("df_full.csv")
 df_tidy <- read_csv("df_tidy.csv")
@@ -217,8 +219,8 @@ sentiment_by_time %>%
     filter(sentiment %in% c("positive", "negative")) %>%
     count(date, sentiment, total_words) %>%
     ungroup() %>%
-    mutate(percent = n / total_words) %>%
-    ggplot(aes(date, percent, color = sentiment)) +
+    mutate(proportion = n / total_words) %>%
+    ggplot(aes(date, proportion, color = sentiment)) +
     geom_line(size = 1.5) +
     geom_smooth(method = "lm", se = FALSE, lty = 2) +
     expand_limits(y = 0)
@@ -227,15 +229,15 @@ sentiment_by_time %>%
     filter(sentiment %in% c("anger", "sadness")) %>%
     count(date, sentiment, total_words) %>%
     ungroup() %>%
-    mutate(percent = n / total_words) %>%
-    ggplot(aes(date, percent, color = sentiment)) +
+    mutate(proportion = n / total_words) %>%
+    ggplot(aes(date, proportion, color = sentiment)) +
     geom_line(size = 1.5) +
     geom_smooth(method = "lm", se = FALSE, lty = 2) +
     expand_limits(y = 0)
 
 ```
 
-```{r}
+```{r, fig.width=9.25}
 angerWords <- df_filterNRCwords %>% filter(sentiment=="anger") %>% group_by(word) %>% summarize(N=n()) %>% arrange(-N) 
 names(angerWords) <- c("Anger Words", "Frequency")
 kable(head(angerWords, n = 15))
