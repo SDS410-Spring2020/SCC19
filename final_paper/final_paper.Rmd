@@ -1,8 +1,10 @@
 ---
 title: "Smith College Communicating COVID-19 (SCC19)"
+author: "Emily Daubenspeck, Yejin Hwang, Jeny Kwon, Whitney Mutalemwa"
 date: "Spring 2020 (May 8th)"
-author: Emily Daubenspeck, Yejin Hwang, Jeny Kwon, Whitney Mutalemwa
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 always_allow_html: yes
 ---
 
