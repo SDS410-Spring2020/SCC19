@@ -272,7 +272,7 @@ Using similar methods, when comparing anger and sadness, the trends for anger an
 [Sentiment Graph]
 
 
-**need afinn results**
+[Need AFINN Results]
 
 ## Discussion
 
